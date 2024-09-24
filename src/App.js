@@ -6,7 +6,7 @@ function App() {
     <div className="App">
       <header className="App-header">
         <h1>캐치! 그림핑 ㅋㅋㅋㅋㅋㅋㅋ</h1>
-        <img src={`${process.env.PUBLIC_URL}/images/drawing_ping`} alt="drawing_ping" />
+        <img src={`${process.env.PUBLIC_URL}/images/drawing_ping`} alt="logo" />
       </header>
     </div>
   );
