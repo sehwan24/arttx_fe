@@ -8,7 +8,9 @@ function App() {
 
     useEffect(() => {
         // 백엔드로 GET 요청 보내기
-        axios.get(`${process.env.REACT_APP_API_URL}/api/test/1`) // 백엔드의 실제 API URL로 변경
+        axios.get(`${process.env.REACT_APP_API_URL}/api/test/1`, {
+            withCredentials: true
+        }) // 백엔드의 실제 API URL로 변경
             .then(response => {
                 setData(response.data); // 응답 데이터를 상태에 저장
             })
