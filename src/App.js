@@ -132,21 +132,11 @@ function App() {
               <canvas
                   ref={canvasRef}
                   id="drawingCanvas"
-                  style={{
-                      border: '1px solid #000000',
-                      backgroundColor: 'white',
-                      width: '100%',      // 화면 가로에 맞추기
-                      height: 'auto'      // 비율을 유지하면서 높이를 자동 조정
-                  }}>
+                  width="800"
+                  height="600"
+                  style={{ border: '1px solid #000000', backgroundColor: 'white' }}>
               </canvas>
-              <img
-                  src={drawing_ping} alt="drawing_ping"
-                  id="drawingPing"
-                  style={{
-                      width: '100%',      // 화면 가로에 맞추기
-                      height: 'auto'      // 비율을 유지하면서 높이를 자동 조정
-                  }}
-              />
+              <img src={drawing_ping} alt="drawing_ping" />
             <p>{data ? `서버 응답: ${data}` : '데이터 로딩 중...'}</p>
           </header>
         </div>
