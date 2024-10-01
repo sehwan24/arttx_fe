@@ -40,6 +40,15 @@ function App() {
             ctx.strokeStyle = penColor; // 펜 색상 설정
         }
 
+        // 터치 이벤트에서 좌표 추출 함수
+        const getTouchPos = (e) => {
+            const rect = canvas.getBoundingClientRect();
+            return {
+                x: e.touches[0].clientX - rect.left,
+                y: e.touches[0].clientY - rect.top
+            };
+        };
+
         // 그리기 시작
         const startDrawing = (e) => {
             setIsDrawing(true);
@@ -47,10 +56,26 @@ function App() {
             ctx.moveTo(e.offsetX, e.offsetY); // 시작점 설정
         };
 
+        // 터치로 그리기 시작
+        const startDrawingTouch = (e) => {
+            const touchPos = getTouchPos(e);
+            setIsDrawing(true);
+            ctx.beginPath();
+            ctx.moveTo(touchPos.x, touchPos.y);
+        };
+
         // 그리는 중
         const draw = (e) => {
             if (!isDrawing) return;
             ctx.lineTo(e.offsetX, e.offsetY); // 마우스 움직임에 따라 선 그리기
+            ctx.stroke();
+        };
+
+        // 터치로 그리기 중
+        const drawTouch = (e) => {
+            if (!isDrawing) return;
+            const touchPos = getTouchPos(e);
+            ctx.lineTo(touchPos.x, touchPos.y);
             ctx.stroke();
         };
 
@@ -66,12 +91,22 @@ function App() {
         canvas.addEventListener('mouseup', stopDrawing);
         canvas.addEventListener('mouseleave', stopDrawing); // 캔버스 밖으로 나갔을 때 그리기 종료
 
+        // 터치 이벤트
+        canvas.addEventListener('touchstart', startDrawingTouch);
+        canvas.addEventListener('touchmove', drawTouch);
+        canvas.addEventListener('touchend', stopDrawing);
+        canvas.addEventListener('touchcancel', stopDrawing);
+
         // 컴포넌트가 언마운트될 때 이벤트 리스너 제거
         return () => {
             canvas.removeEventListener('mousedown', startDrawing);
             canvas.removeEventListener('mousemove', draw);
             canvas.removeEventListener('mouseup', stopDrawing);
             canvas.removeEventListener('mouseleave', stopDrawing);
+            canvas.removeEventListener('touchstart', startDrawingTouch);
+            canvas.removeEventListener('touchmove', drawTouch);
+            canvas.removeEventListener('touchend', stopDrawing);
+            canvas.removeEventListener('touchcancel', stopDrawing);
         };
     }, [isDrawing, penColor, isEraser, lineWidth]);
 
