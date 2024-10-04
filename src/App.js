@@ -6,6 +6,7 @@ import drawing_ping from './images/drawing_ping.png';
 
 
 function App() {
+    const [isMenuOpen, setIsMenuOpen] = useState(false);
     const isMobile = useMediaQuery({ query: "(max-width: 768px)" });
     const isPc = useMediaQuery({ query: "(min-width: 769px)" });
     const [data, setData] = useState('');
@@ -14,6 +15,9 @@ function App() {
     const [penColor, setPenColor] = useState('#000000'); // 펜 색상 상태 추가
     const [isEraser, setIsEraser] = useState(false); // 지우개 활성화 상태
     const [lineWidth, setLineWidth] = useState(5); // 펜 굵기 상태
+    const toggleMenu = () => {
+        setIsMenuOpen(!isMenuOpen);
+    };
 
     useEffect(() => {
         // 백엔드로 GET 요청 보내기
@@ -142,7 +146,14 @@ function App() {
 
     return (
         <div className="App">
-            <div className="sidebar">
+            {isMobile && (
+                <button className="menu-toggle" onClick={toggleMenu}>
+                    &#9776; {/* 햄버거 메뉴 아이콘 */}
+                </button>
+            )}
+
+            {/* 사이드바 */}
+            <div className={`sidebar ${isMenuOpen || !isMobile ? 'open' : ''}`}>
                 <ul>
                     <li><a href="#">Menu Item 1</a></li>
                     <li><a href="#">Menu Item 2</a></li>
@@ -151,6 +162,7 @@ function App() {
                 </ul>
             </div>
 
+            {/* 메인 콘텐츠 */}
             <div className="main-content">
                 <header className="App-header">
                     <h1>캐치! 그림핑</h1>
