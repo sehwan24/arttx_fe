@@ -1,9 +1,13 @@
 import './App.css';
 import React, { useRef, useEffect, useState } from 'react';
+import {useMediaQuery} from "react-responsive";
 import axios from 'axios';
 import drawing_ping from './images/drawing_ping.png';
 
+
 function App() {
+    const isMobile = useMediaQuery({ query: "(max-width: 768px)" });
+    const isPc = useMediaQuery({ query: "(min-width: 769px)" });
     const [data, setData] = useState('');
     const canvasRef = useRef(null);
     const [isDrawing, setIsDrawing] = useState(false);
@@ -78,11 +82,6 @@ function App() {
             ctx.closePath();
         };
 
-        // 마우스 이벤트
-        canvas.addEventListener('mousedown', startDrawing);
-        canvas.addEventListener('mousemove', draw);
-        canvas.addEventListener('mouseup', stopDrawing);
-        canvas.addEventListener('mouseleave', stopDrawing);
 
         // 터치 이벤트에서 좌표 추출 함수
         const getTouchPos = (e) => {
@@ -107,23 +106,32 @@ function App() {
             ctx.stroke();
         };
 
-        // 터치 이벤트
-        canvas.addEventListener('touchstart', startDrawingTouch);
-        canvas.addEventListener('touchmove', drawTouch);
-        canvas.addEventListener('touchend', stopDrawing);
-        canvas.addEventListener('touchcancel', stopDrawing);
+        if (isMobile) {
+            canvas.addEventListener('touchstart', startDrawingTouch);
+            canvas.addEventListener('touchmove', drawTouch);
+            canvas.addEventListener('touchend', stopDrawing);
+            canvas.addEventListener('touchcancel', stopDrawing);
+        } else {
+            canvas.addEventListener('mousedown', startDrawing);
+            canvas.addEventListener('mousemove', draw);
+            canvas.addEventListener('mouseup', stopDrawing);
+            canvas.addEventListener('mouseleave', stopDrawing);
+        }
 
         // 컴포넌트가 언마운트될 때 이벤트 리스너 제거
         return () => {
-            window.removeEventListener('resize', resizeCanvas); // 리스너 제거
-            canvas.removeEventListener('mousedown', startDrawing);
-            canvas.removeEventListener('mousemove', draw);
-            canvas.removeEventListener('mouseup', stopDrawing);
-            canvas.removeEventListener('mouseleave', stopDrawing);
-            canvas.removeEventListener('touchstart', startDrawingTouch);
-            canvas.removeEventListener('touchmove', drawTouch);
-            canvas.removeEventListener('touchend', stopDrawing);
-            canvas.removeEventListener('touchcancel', stopDrawing);
+            window.removeEventListener('resize', resizeCanvas);
+            if (isMobile) {
+                canvas.removeEventListener('touchstart', startDrawingTouch);
+                canvas.removeEventListener('touchmove', drawTouch);
+                canvas.removeEventListener('touchend', stopDrawing);
+                canvas.removeEventListener('touchcancel', stopDrawing);
+            } else {
+                canvas.removeEventListener('mousedown', startDrawing);
+                canvas.removeEventListener('mousemove', draw);
+                canvas.removeEventListener('mouseup', stopDrawing);
+                canvas.removeEventListener('mouseleave', stopDrawing);
+            }
         };
     }, [isDrawing, penColor, isEraser, lineWidth]);
 
@@ -131,37 +139,63 @@ function App() {
         <div className="App">
             <header className="App-header">
                 <h1>캐치! 그림핑</h1>
-                <input
-                    type="color"
-                    value={penColor}
-                    onChange={(e) => setPenColor(e.target.value)} // 색상 변경
-                    disabled={isEraser} // 지우개 모드에서는 색상 변경 비활성화
-                />
-                <input
-                    type="range"
-                    min="1"
-                    max="50"
-                    value={lineWidth}
-                    onChange={(e) => setLineWidth(e.target.value)} // 펜 굵기 변경
-                />
-                <button onClick={() => setIsEraser(false)}>Pen</button> {/* 펜 모드 */}
-                <button onClick={() => setIsEraser(true)}>Eraser</button> {/* 지우개 모드 */}
-                <canvas
-                    ref={canvasRef}
-                    id="drawingCanvas"
-                    style={{
-                        border: '1px solid #000000',
-                        backgroundColor: 'white',
-                        width: '100%', // 화면 가로에 맞추기
-                        height: '600px', // 고정된 높이
-                    }}>
-                </canvas>
+                {isMobile ? (
+                    <div>
+                        <p>모바일 화면</p>
+                        <button onClick={() => setIsEraser(false)}>펜</button>
+                        <button onClick={() => setIsEraser(true)}>지우개</button>
+                        <canvas
+                            ref={canvasRef}
+                            id="drawingCanvas"
+                            style={{
+                                border: '1px solid #000000',
+                                backgroundColor: 'white',
+                                width: '100%',
+                                height: '400px',
+                            }}>
+                        </canvas>
+                    </div>
+                ) : (
+                    <div>
+                        <p>PC 화면</p>
+                        <input
+                            type="color"
+                            value={penColor}
+                            onChange={(e) => setPenColor(e.target.value)}
+                            disabled={isEraser}
+                        />
+                        <input
+                            type="range"
+                            min="1"
+                            max="50"
+                            value={lineWidth}
+                            onChange={(e) => setLineWidth(e.target.value)}
+                        />
+                        <button onClick={() => setIsEraser(false)}>Pen</button>
+                        <button onClick={() => setIsEraser(true)}>Eraser</button>
+                        <button onClick={() => {
+                            const canvas = canvasRef.current;
+                            const ctx = canvas.getContext('2d');
+                            ctx.clearRect(0, 0, canvas.width, canvas.height);
+                        }}>Clear Canvas</button>
+                        <canvas
+                            ref={canvasRef}
+                            id="drawingCanvas"
+                            style={{
+                                border: '1px solid #000000',
+                                backgroundColor: 'white',
+                                width: '100%',
+                                height: '600px',
+                            }}>
+                        </canvas>
+                    </div>
+                )}
                 <img
                     src={drawing_ping} alt="drawing_ping"
                     id="drawingPing"
                     style={{
-                        width: '300px', // 화면 가로에 맞추기
-                        height: '300px', // 고정된 높이
+                        width: '300px',
+                        height: '300px',
                     }}
                 />
                 <p>{data ? `서버 응답: ${data}` : '데이터 로딩 중...'}</p>
