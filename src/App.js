@@ -142,89 +142,101 @@ function App() {
 
     return (
         <div className="App">
-            <header className="App-header">
-                <h1>캐치! 그림핑</h1>
-                {isMobile ? (
-                    <div>
-                        <p>모바일 화면</p>
-                        <input
-                            type="color"
-                            value={penColor}
-                            onChange={(e) => setPenColor(e.target.value)}
-                            disabled={isEraser}
-                        />
-                        <input
-                            type="range"
-                            min="1"
-                            max="50"
-                            value={lineWidth}
-                            onChange={(e) => setLineWidth(e.target.value)}
-                        />
-                        <button onClick={() => setIsEraser(false)}>Pen</button>
-                        <button onClick={() => setIsEraser(true)}>Eraser</button>
-                        <button onClick={() => {
-                            const canvas = canvasRef.current;
-                            const ctx = canvas.getContext('2d');
-                            ctx.clearRect(0, 0, canvas.width, canvas.height);
-                        }}>Clear Canvas</button>
-                        <canvas
-                            ref={canvasRef}
-                            id="drawingCanvas"
-                            style={{
-                                border: '1px solid #000000',
-                                backgroundColor: 'white',
-                                width: '100%',
-                                height: '400px',
-                            }}>
-                        </canvas>
-                    </div>
-                ) : (
-                    <div>
-                        <p>PC 화면</p>
-                        <input
-                            type="color"
-                            value={penColor}
-                            onChange={(e) => setPenColor(e.target.value)}
-                            disabled={isEraser}
-                        />
-                        <input
-                            type="range"
-                            min="1"
-                            max="50"
-                            value={lineWidth}
-                            onChange={(e) => setLineWidth(e.target.value)}
-                        />
-                        <button onClick={() => setIsEraser(false)}>Pen</button>
-                        <button onClick={() => setIsEraser(true)}>Eraser</button>
-                        <button onClick={() => {
-                            const canvas = canvasRef.current;
-                            const ctx = canvas.getContext('2d');
-                            ctx.clearRect(0, 0, canvas.width, canvas.height);
-                        }}>Clear Canvas</button>
-                        <canvas
-                            ref={canvasRef}
-                            id="drawingCanvas"
-                            style={{
-                                border: '1px solid #000000',
-                                backgroundColor: 'white',
-                                width: '100%',
-                                height: '600px',
-                            }}>
-                        </canvas>
-                    </div>
-                )}
-                <img
-                    src={drawing_ping} alt="drawing_ping"
-                    id="drawingPing"
-                    style={{
-                        width: '300px',
-                        height: '300px',
-                    }}
-                />
-                <p>{data ? `서버 응답: ${data}` : '데이터 로딩 중...'}</p>
-            </header>
+            <div className="sidebar">
+                <ul>
+                    <li><a href="#">Menu Item 1</a></li>
+                    <li><a href="#">Menu Item 2</a></li>
+                    <li><a href="#">Menu Item 3</a></li>
+                    <li><a href="#">Menu Item 4</a></li>
+                </ul>
+            </div>
+
+            <div className="main-content">
+                <header className="App-header">
+                    <h1>캐치! 그림핑</h1>
+                    {isMobile ? (
+                        <div>
+                            <p>모바일 화면</p>
+                            <input
+                                type="color"
+                                value={penColor}
+                                onChange={(e) => setPenColor(e.target.value)}
+                                disabled={isEraser}
+                            />
+                            <input
+                                type="range"
+                                min="1"
+                                max="50"
+                                value={lineWidth}
+                                onChange={(e) => setLineWidth(e.target.value)}
+                            />
+                            <button onClick={() => setIsEraser(false)}>Pen</button>
+                            <button onClick={() => setIsEraser(true)}>Eraser</button>
+                            <button onClick={() => {
+                                const canvas = canvasRef.current;
+                                const ctx = canvas.getContext('2d');
+                                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                            }}>Clear Canvas</button>
+                            <canvas
+                                ref={canvasRef}
+                                id="drawingCanvas"
+                                style={{
+                                    border: '1px solid #000000',
+                                    backgroundColor: 'white',
+                                    width: '100%',
+                                    height: '400px',
+                                }}>
+                            </canvas>
+                        </div>
+                    ) : (
+                        <div>
+                            <p>PC 화면</p>
+                            <input
+                                type="color"
+                                value={penColor}
+                                onChange={(e) => setPenColor(e.target.value)}
+                                disabled={isEraser}
+                            />
+                            <input
+                                type="range"
+                                min="1"
+                                max="50"
+                                value={lineWidth}
+                                onChange={(e) => setLineWidth(e.target.value)}
+                            />
+                            <button onClick={() => setIsEraser(false)}>Pen</button>
+                            <button onClick={() => setIsEraser(true)}>Eraser</button>
+                            <button onClick={() => {
+                                const canvas = canvasRef.current;
+                                const ctx = canvas.getContext('2d');
+                                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                            }}>Clear Canvas</button>
+                            <canvas
+                                ref={canvasRef}
+                                id="drawingCanvas"
+                                style={{
+                                    border: '1px solid #000000',
+                                    backgroundColor: 'white',
+                                    width: '100%',
+                                    height: '600px',
+                                }}>
+                            </canvas>
+                        </div>
+                    )}
+                    <img
+                        src={drawing_ping} alt="drawing_ping"
+                        id="drawingPing"
+                        style={{
+                            width: '300px',
+                            height: '300px',
+                        }}
+                    />
+                    <p>{data ? `서버 응답: ${data}` : '데이터 로딩 중...'}</p>
+                </header>
+            </div>
         </div>
     );
+
 }
 
 export default App;
