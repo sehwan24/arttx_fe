@@ -142,8 +142,26 @@ function App() {
                 {isMobile ? (
                     <div>
                         <p>모바일 화면</p>
-                        <button onClick={() => setIsEraser(false)}>펜</button>
-                        <button onClick={() => setIsEraser(true)}>지우개</button>
+                        <input
+                            type="color"
+                            value={penColor}
+                            onChange={(e) => setPenColor(e.target.value)}
+                            disabled={isEraser}
+                        />
+                        <input
+                            type="range"
+                            min="1"
+                            max="50"
+                            value={lineWidth}
+                            onChange={(e) => setLineWidth(e.target.value)}
+                        />
+                        <button onClick={() => setIsEraser(false)}>Pen</button>
+                        <button onClick={() => setIsEraser(true)}>Eraser</button>
+                        <button onClick={() => {
+                            const canvas = canvasRef.current;
+                            const ctx = canvas.getContext('2d');
+                            ctx.clearRect(0, 0, canvas.width, canvas.height);
+                        }}>Clear Canvas</button>
                         <canvas
                             ref={canvasRef}
                             id="drawingCanvas"
