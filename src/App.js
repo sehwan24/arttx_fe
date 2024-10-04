@@ -60,6 +60,7 @@ function App() {
         }
 
         const startDrawing = (e) => {
+            e.preventDefault();
             const rect = canvas.getBoundingClientRect();
             const offsetX = e.clientX - rect.left;
             const offsetY = e.clientY - rect.top;
@@ -69,6 +70,7 @@ function App() {
         };
 
         const draw = (e) => {
+            e.preventDefault();
             if (!isDrawing) return;
             const rect = canvas.getBoundingClientRect();
             const offsetX = e.clientX - rect.left;
@@ -77,7 +79,8 @@ function App() {
             ctx.stroke();
         };
 
-        const stopDrawing = () => {
+        const stopDrawing = (e) => {
+            e.preventDefault();
             setIsDrawing(false);
             ctx.closePath();
         };
@@ -93,6 +96,7 @@ function App() {
         };
 
         const startDrawingTouch = (e) => {
+            e.preventDefault();
             const touchPos = getTouchPos(e);
             setIsDrawing(true);
             ctx.beginPath();
@@ -100,6 +104,7 @@ function App() {
         };
 
         const drawTouch = (e) => {
+            e.preventDefault()
             if (!isDrawing) return;
             const touchPos = getTouchPos(e);
             ctx.lineTo(touchPos.x, touchPos.y);
