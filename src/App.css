@@ -13,7 +13,7 @@
   top: 0;
   left: -250px; /* 기본적으로 화면에서 숨김 */
   transition: left 0.3s ease;
-  z-index: 1000; /* 모바일에서 사이드바가 위로 보이도록 */
+  z-index: 1000;
 }
 
 .sidebar.open {
@@ -44,17 +44,43 @@
   position: fixed;
   top: 10px;
   left: 10px;
-  z-index: 1001; /* 사이드바보다 위에 보이도록 설정 */
+  z-index: 1001;
 }
 
 /* 메인 콘텐츠 */
 .main-content {
   margin-left: 250px;
-  padding: 20px;
   width: calc(100% - 250px);
+  height: 100vh;
+  display: flex;
+  justify-content: center; /* 수평 가운데 정렬 */
+  align-items: flex-start; /* 상단에 정렬 */
+  flex-direction: column;
+  padding-top: 150px; /* 상단 여백 추가 */
   transition: margin-left 0.3s ease;
+  text-align: center;
 }
 
+.App-header {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  width: 100%;
+  padding-top: 20px; /* 추가적인 상단 여백 */
+}
+
+.App-header h1 {
+  margin-bottom: 20px;
+}
+
+canvas {
+  margin-top: 20px;
+  max-width: 100%;
+  border: 1px solid #000000;
+}
+
+/* 미디어 쿼리: 모바일용 */
 @media (max-width: 768px) {
   .sidebar {
     left: -250px; /* 모바일에서는 숨겨진 상태 */
@@ -70,6 +96,6 @@
   }
 
   .menu-toggle {
-    display: block; /* 모바일에서만 햄버거 메뉴 버튼 보이기 */
+    display: block;
   }
 }
