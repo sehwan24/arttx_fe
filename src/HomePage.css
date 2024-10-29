@@ -1,6 +1,6 @@
 /* HomePage.css */
 
-/* 전체 페이지에 약간의 여백과 패딩을 추가하여 넉넉한 공간감을 제공 */
+/* 전체 페이지 스타일 */
 body {
     margin: 0;
     padding: 0;
@@ -44,25 +44,38 @@ nav.container-fluid ul li strong {
     font-size: 1.5rem;
 }
 
-/* 메인 콘텐츠 */
+/* 메인 콘텐츠 가운데 정렬 */
 main.container {
-    padding: 2rem;
-    background-color: #fff;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    max-width: 900px;
-    margin: 2rem auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 70vh;
 }
 
-h2, h3 {
+.center-content {
+    text-align: center;
+}
+
+.center-content h2 {
+    font-size: 2rem;
     color: #007bff;
-    margin-bottom: 1rem;
+    margin-bottom: 1.5rem;
 }
 
-p {
-    font-size: 1.1rem;
-    line-height: 1.6;
-    color: #666;
+/* HTP 검사 시작하기 버튼 스타일 */
+.start-button {
+    padding: 1rem 2.5rem;
+    font-size: 1.5rem;
+    color: #fff;
+    background-color: #007bff;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.start-button:hover {
+    background-color: #0056b3;
 }
 
 /* 구독 섹션 */
@@ -118,4 +131,20 @@ footer.container small a {
 
 footer.container small a:hover {
     text-decoration: underline;
+}
+
+/* HTP 검사 시작하기 링크 스타일 */
+.start-button {
+    display: inline-block;
+    padding: 1rem 2.5rem;
+    font-size: 1.5rem;
+    color: #fff;
+    background-color: #007bff;
+    border-radius: 8px;
+    text-decoration: none;
+    transition: background-color 0.3s;
+}
+
+.start-button:hover {
+    background-color: #0056b3;
 }

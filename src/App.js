@@ -2,7 +2,9 @@ import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import DrawingPage from './DrawingPage';  // 방금 만든 DrawingPage 컴포넌트
 import HomePage from './HomePage';  // 예시로 사용할 새로운 첫 페이지
-import './DrawingPage.css';
+import HousePage from "./HousePage";
+import PersonPage from "./PersonPage";
+import TreePage from "./TreePage";
 
 function App() {
     return (
@@ -13,6 +15,9 @@ function App() {
 
                 {/* 기존의 그림 그리기 페이지는 /draw로 연결 */}
                 <Route path="/draw" element={<DrawingPage />} />
+                <Route path="/house" element={<HousePage />} />
+                <Route path="/person" element={<PersonPage />} />
+                <Route path="/tree" element={<TreePage />} />
             </Routes>
         </Router>
     );
