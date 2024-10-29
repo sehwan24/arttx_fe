@@ -76,26 +76,56 @@ const PersonPage = () => {
             ctx.closePath();
         };
 
+        // 터치 이벤트에서 좌표 추출 함수
+        const getTouchPos = (e) => {
+            const rect = canvas.getBoundingClientRect();
+            return {
+                x: e.touches[0].clientX - rect.left,
+                y: e.touches[0].clientY - rect.top
+            };
+        };
+
+        const startDrawingTouch = (e) => {
+            e.preventDefault();
+            const touchPos = getTouchPos(e);
+            setIsDrawing(true);
+            ctx.beginPath();
+            ctx.moveTo(touchPos.x, touchPos.y);
+        };
+
+        const drawTouch = (e) => {
+            e.preventDefault()
+            if (!isDrawing) return;
+            const touchPos = getTouchPos(e);
+            ctx.lineTo(touchPos.x, touchPos.y);
+            ctx.stroke();
+        };
+
+
         if (isMobile) {
-            canvas.addEventListener('touchstart', startDrawing);
-            canvas.addEventListener('touchmove', draw);
+            canvas.addEventListener('touchstart', startDrawingTouch);
+            canvas.addEventListener('touchmove', drawTouch);
             canvas.addEventListener('touchend', stopDrawing);
+            canvas.addEventListener('touchcancel', stopDrawing);
         } else {
             canvas.addEventListener('mousedown', startDrawing);
             canvas.addEventListener('mousemove', draw);
             canvas.addEventListener('mouseup', stopDrawing);
+            canvas.addEventListener('mouseleave', stopDrawing);
         }
 
         return () => {
             window.removeEventListener('resize', resizeCanvas);
             if (isMobile) {
-                canvas.removeEventListener('touchstart', startDrawing);
-                canvas.removeEventListener('touchmove', draw);
+                canvas.removeEventListener('touchstart', startDrawingTouch);
+                canvas.removeEventListener('touchmove', drawTouch);
                 canvas.removeEventListener('touchend', stopDrawing);
+                canvas.removeEventListener('touchcancel', stopDrawing);
             } else {
                 canvas.removeEventListener('mousedown', startDrawing);
                 canvas.removeEventListener('mousemove', draw);
                 canvas.removeEventListener('mouseup', stopDrawing);
+                canvas.removeEventListener('mouseleave', stopDrawing);
             }
         };
     }, [isDrawing, penColor, isMobile, isEraser, lineWidth]);
