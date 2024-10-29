@@ -32,6 +32,7 @@
 .sidebar ul li a {
     color: white;
     text-decoration: none;
+    font-size: 16px; /* 링크 텍스트 크기 */
 }
 
 /* 햄버거 메뉴 버튼 */
@@ -51,12 +52,12 @@
 .main-content {
     margin-left: 250px;
     width: calc(100% - 250px);
-    height: 95vh;
+    height: 90vh;
     display: flex;
     justify-content: center; /* 수평 가운데 정렬 */
     align-items: flex-start; /* 상단에 정렬 */
     flex-direction: column;
-    padding-top: 0px; /* 상단 여백 추가 */
+    padding: 20px; /* 추가적인 여백 */
     transition: margin-left 0.3s ease;
     text-align: center;
 }
@@ -67,17 +68,58 @@
     justify-content: flex-start;
     align-items: center;
     width: 100%;
-    padding-top: 20px; /* 추가적인 상단 여백 */
+    padding-top: 20px;
 }
 
 .App-header h1 {
     margin-bottom: 20px;
+    font-size: 24px;
 }
 
 canvas {
     margin-top: 20px;
     max-width: 100%;
     border: 1px solid #000000;
+}
+
+/* 도구 컨테이너 스타일 */
+.tool-container {
+    display: flex;
+    align-items: center;
+    gap: 8px; /* 요소 간 간격 */
+    margin-bottom: 10px;
+}
+
+.tool-container input[type="color"],
+.tool-container input[type="range"],
+.tool-container button,
+.tool-container input[type="file"] {
+    height: 36px; /* 모든 요소 동일 높이 */
+    padding: 0 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+/* 파일 입력 버튼 스타일 조정 */
+.tool-container input[type="file"] {
+    width: auto;
+    padding: 0;
+    background-color: #f0f0f0; /* 다른 버튼들과 동일한 배경색 */
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    height: 36px;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.tool-container button {
+    background-color: #f0f0f0;
+}
+
+.tool-container input[type="range"] {
+    width: 100px; /* 슬라이더 너비 조정 */
 }
 
 /* 미디어 쿼리: 모바일용 */
@@ -98,5 +140,9 @@ canvas {
 
     .menu-toggle {
         display: block;
+    }
+
+    .tool-container input[type="range"] {
+        width: 80px; /* 모바일에서 슬라이더 너비 조정 */
     }
 }

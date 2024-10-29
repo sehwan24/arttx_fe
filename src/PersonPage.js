@@ -100,6 +100,20 @@ const PersonPage = () => {
         };
     }, [isDrawing, penColor, isMobile, isEraser, lineWidth]);
 
+    const handleImageUpload = (e) => {
+        const canvas = canvasRef.current;
+        const ctx = canvas.getContext('2d');
+        const file = e.target.files[0];
+        if (file) {
+            const img = new Image();
+            img.onload = () => {
+                ctx.clearRect(0, 0, canvas.width, canvas.height); // Clear canvas before drawing image
+                ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+            };
+            img.src = URL.createObjectURL(file);
+        }
+    };
+
     return (
         <div className="App">
             {isMobile && (
@@ -118,7 +132,7 @@ const PersonPage = () => {
 
             <div className="main-content">
                 <header className="App-header">
-                    <h1>캐치! 그림핑</h1>
+                    <h1>사람을 그려주세요.</h1>
                     {isMobile ? (
                         <div>
                             <input
@@ -134,13 +148,14 @@ const PersonPage = () => {
                                 value={lineWidth}
                                 onChange={(e) => setLineWidth(e.target.value)}
                             />
-                            <button onClick={() => setIsEraser(false)}>Pen</button>
-                            <button onClick={() => setIsEraser(true)}>Eraser</button>
+                            <button onClick={() => setIsEraser(false)}>펜</button>
+                            <button onClick={() => setIsEraser(true)}>지우개</button>
                             <button onClick={() => {
                                 const canvas = canvasRef.current;
                                 const ctx = canvas.getContext('2d');
                                 ctx.clearRect(0, 0, canvas.width, canvas.height);
-                            }}>Clear Canvas</button>
+                            }}>전체 지우기</button>
+                            <input type="file" accept="image/*" onChange={handleImageUpload} />
                             <canvas
                                 ref={canvasRef}
                                 id="drawingCanvas"
@@ -167,13 +182,14 @@ const PersonPage = () => {
                                 value={lineWidth}
                                 onChange={(e) => setLineWidth(e.target.value)}
                             />
-                            <button onClick={() => setIsEraser(false)}>Pen</button>
-                            <button onClick={() => setIsEraser(true)}>Eraser</button>
+                            <button onClick={() => setIsEraser(false)}>펜</button>
+                            <button onClick={() => setIsEraser(true)}>지우개</button>
                             <button onClick={() => {
                                 const canvas = canvasRef.current;
                                 const ctx = canvas.getContext('2d');
                                 ctx.clearRect(0, 0, canvas.width, canvas.height);
-                            }}>Clear Canvas</button>
+                            }}>전체 지우기</button>
+                            <input type="file" accept="image/*" onChange={handleImageUpload} />
                             <canvas
                                 ref={canvasRef}
                                 id="drawingCanvas"
