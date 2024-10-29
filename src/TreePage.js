@@ -144,6 +144,15 @@ const TreePage = () => {
         }
     };
 
+    // 캔버스를 이미지 파일로 저장하는 함수
+    const saveCanvas = () => {
+        const canvas = canvasRef.current;
+        const link = document.createElement('a');
+        link.href = canvas.toDataURL('image/jpeg'); // PNG 형식으로 저장
+        link.download = 'canvas-drawing.jpeg'; // 다운로드 파일명
+        link.click();
+    }
+
     return (
         <div className="App">
             {isMobile && (
