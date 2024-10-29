@@ -51,12 +51,12 @@
 .main-content {
     margin-left: 250px;
     width: calc(100% - 250px);
-    height: 100vh;
+    height: 95vh;
     display: flex;
     justify-content: center; /* 수평 가운데 정렬 */
     align-items: flex-start; /* 상단에 정렬 */
     flex-direction: column;
-    padding-top: 150px; /* 상단 여백 추가 */
+    padding-top: 0px; /* 상단 여백 추가 */
     transition: margin-left 0.3s ease;
     text-align: center;
 }

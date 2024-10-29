@@ -121,7 +121,6 @@ const PersonPage = () => {
                     <h1>캐치! 그림핑</h1>
                     {isMobile ? (
                         <div>
-                            <p>모바일 화면</p>
                             <input
                                 type="color"
                                 value={penColor}
@@ -155,7 +154,6 @@ const PersonPage = () => {
                         </div>
                     ) : (
                         <div>
-                            <p>PC 화면</p>
                             <input
                                 type="color"
                                 value={penColor}
@@ -188,15 +186,7 @@ const PersonPage = () => {
                             </canvas>
                         </div>
                     )}
-                    <img
-                        src={drawing_ping} alt="drawing_ping"
-                        id="drawingPing"
-                        style={{
-                            width: '300px',
-                            height: '300px',
-                        }}
-                    />
-                    <p>{data ? `서버 응답: ${data}` : '데이터 로딩 중...'}</p>
+                    <p>{data ? `서버 응답: ${data}` : '제출하기'}</p>
                 </header>
             </div>
         </div>

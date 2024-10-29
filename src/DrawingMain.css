@@ -1,10 +1,10 @@
 /* 전체 레이아웃 */
-.App {
+.main-App {
     display: flex;
 }
 
 /* 사이드바 스타일 */
-.sidebar {
+.main-sidebar {
     width: 250px;
     background-color: #2c2c2c;
     color: white;
@@ -16,26 +16,26 @@
     z-index: 1000;
 }
 
-.sidebar.open {
+.main-sidebar.open {
     left: 0; /* 메뉴가 열리면 보이도록 설정 */
 }
 
-.sidebar ul {
+.main-sidebar ul {
     list-style-type: none;
     padding: 20px;
 }
 
-.sidebar ul li {
+.main-sidebar ul li {
     margin: 20px 0;
 }
 
-.sidebar ul li a {
+.main-sidebar ul li a {
     color: white;
     text-decoration: none;
 }
 
 /* 햄버거 메뉴 버튼 */
-.menu-toggle {
+.main-menu-toggle {
     background-color: #2c2c2c;
     color: white;
     border: none;
@@ -48,7 +48,7 @@
 }
 
 /* 메인 콘텐츠 */
-.main-content {
+.main-main-content {
     margin-left: 250px;
     width: calc(100% - 250px);
     height: 100vh;
@@ -56,12 +56,11 @@
     justify-content: center; /* 수평 가운데 정렬 */
     align-items: flex-start; /* 상단에 정렬 */
     flex-direction: column;
-    padding-top: 150px; /* 상단 여백 추가 */
     transition: margin-left 0.3s ease;
     text-align: center;
 }
 
-.App-header {
+.main-App-header {
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
@@ -70,11 +69,11 @@
     padding-top: 20px; /* 추가적인 상단 여백 */
 }
 
-.App-header h1 {
+.main-App-header h1 {
     margin-bottom: 20px;
 }
 
-canvas {
+.main-canvas {
     margin-top: 20px;
     max-width: 100%;
     border: 1px solid #000000;
@@ -82,21 +81,21 @@ canvas {
 
 /* 미디어 쿼리: 모바일용 */
 @media (max-width: 768px) {
-    .sidebar {
+    .main-sidebar {
         left: -250px; /* 모바일에서는 숨겨진 상태 */
     }
 
-    .sidebar.open {
+    .main-sidebar.open {
         left: 0; /* 모바일에서 메뉴가 열리면 보임 */
     }
 
-    .main-content {
+    .main-main-content {
         margin-left: 0; /* 모바일에서 메뉴 숨길 때 전체 너비 사용 */
         width: 100%;
         padding-top: 25px;
     }
 
-    .menu-toggle {
+    .main-menu-toggle {
         display: block;
     }
 }

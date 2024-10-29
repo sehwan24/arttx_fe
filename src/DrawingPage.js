@@ -29,14 +29,14 @@ const DrawingPage = () => {
 
 
     return (
-        <div className="App">
+        <div className="main-App">
             {isMobile && (
-                <button className="menu-toggle" onClick={toggleMenu}>
+                <button className="main-menu-toggle" onClick={toggleMenu}>
                     &#9776;
                 </button>
             )}
 
-            <div className={`sidebar ${isMenuOpen || !isMobile ? 'open' : ''}`}>
+            <div className={`main-sidebar ${isMenuOpen || !isMobile ? 'open' : ''}`}>
                 <ul>
                     <li><a href="/house">집 검사하기</a></li>
                     <li><a href="/tree">나무 검사하기</a></li>
@@ -44,8 +44,8 @@ const DrawingPage = () => {
                 </ul>
             </div>
 
-            <div className="main-content">
-                <header className="App-header">
+            <div className="main-main-content">
+                <header className="main-App-header">
                     <h1>캐치! 그림핑</h1>
                     {isMobile ? (
                         <div>
@@ -55,7 +55,7 @@ const DrawingPage = () => {
                     ) : (
                         <div>
                             <p>PC 화면</p>
-
+                            <h2>HTP 설명 ---------------------------------------------------------</h2>
                         </div>
                     )}
                     <img
@@ -66,6 +66,9 @@ const DrawingPage = () => {
                             height: '300px',
                         }}
                     />
+                    <a href="/house" className="home-button">
+                        HTP 검사 시작하기
+                    </a>
                     <p>{data ? `서버 응답: ${data}` : '데이터 로딩 중...'}</p>
                 </header>
             </div>
