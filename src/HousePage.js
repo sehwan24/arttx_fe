@@ -148,7 +148,7 @@ const HousePage = () => {
         const canvas = canvasRef.current;
         const link = document.createElement('a');
         link.href = canvas.toDataURL('image/jpeg'); // PNG 형식으로 저장
-        link.download = 'canvas-drawing.png'; // 다운로드 파일명
+        link.download = 'canvas-drawing.jpg'; // 다운로드 파일명
         link.click();
     }
 
