@@ -148,8 +148,20 @@ const PersonPage = () => {
     const saveCanvas = () => {
         const canvas = canvasRef.current;
         const link = document.createElement('a');
-        link.href = canvas.toDataURL('image/jpeg'); // PNG 형식으로 저장
-        link.download = 'canvas-drawing.jpg'; // 다운로드 파일명
+        // 임시 캔버스를 생성하고, 그 위에 현재 캔버스를 복사
+        const tempCanvas = document.createElement('canvas');
+        const ctx = tempCanvas.getContext('2d');
+        tempCanvas.width = canvas.width;
+        tempCanvas.height = canvas.height;
+
+        // 흰색 배경을 채우고 그 위에 기존 캔버스를 덧씌움
+        ctx.fillStyle = 'white';
+        ctx.fillRect(0, 0, tempCanvas.width, tempCanvas.height);
+        ctx.drawImage(canvas, 0, 0);
+
+        // 이미지 저장을 위해 임시 캔버스를 JPG 형식으로 변환
+        link.href = tempCanvas.toDataURL('image/jpeg');
+        link.download = 'canvas-drawing.jpg';
         link.click();
     }
 
