@@ -241,7 +241,7 @@ const PersonPage = () => {
                             </canvas>
                         </div>
                     )}
-                    <p>{data ? `서버 응답: ${data}` : '제출하기'}</p>
+                    <button onClick={saveCanvas}>제출하기</button>
                 </header>
             </div>
         </div>
