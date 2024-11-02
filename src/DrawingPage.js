@@ -54,8 +54,7 @@ const DrawingPage = () => {
                         </div>
                     ) : (
                         <div>
-                            <p>PC 화면</p>
-                            <h2>HTP 설명 ---------------------------------------------------------</h2>
+                            <h3>H(House), T(Tree), P(Person) 세가지 항목 검사를 통해 내면의 심리상태를 보다 자세히 알아볼 수 있는 검사입니다.</h3>
                         </div>
                     )}
                     <img
@@ -69,7 +68,6 @@ const DrawingPage = () => {
                     <a href="/house" className="home-button">
                         HTP 검사 시작하기
                     </a>
-                    <p>{data ? `서버 응답: ${data}` : '데이터 로딩 중...'}</p>
                 </header>
             </div>
         </div>

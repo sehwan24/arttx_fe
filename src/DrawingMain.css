@@ -16,6 +16,18 @@
     z-index: 1000;
 }
 
+.home-button {
+    padding: 1rem 2.5rem;
+    font-size: 1.5rem;
+    color: #fff;
+    background-color: #2c2c2c;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin-top: 20px;
+}
+
 .main-sidebar.open {
     left: 0; /* 메뉴가 열리면 보이도록 설정 */
 }
