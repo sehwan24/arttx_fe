@@ -165,6 +165,10 @@ const TreePage = () => {
         link.click();
     }
 
+    const goToNextPage = () => {
+        window.location.href = "/person"; // Adjust URL as necessary
+    };
+
     return (
         <div className="App">
             {isMobile && (
@@ -253,7 +257,10 @@ const TreePage = () => {
                             </canvas>
                         </div>
                     )}
-                    <button onClick={saveCanvas}>제출하기</button>
+                    <div className="button-container">
+                        <button onClick={saveCanvas}>저장하기</button>
+                        <button onClick={goToNextPage}>다음으로</button>
+                    </div>
                 </header>
             </div>
         </div>

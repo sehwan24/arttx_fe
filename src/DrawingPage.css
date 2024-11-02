@@ -122,6 +122,14 @@ canvas {
     width: 100px; /* 슬라이더 너비 조정 */
 }
 
+/* 버튼 컨테이너 스타일 */
+.button-container {
+    display: flex;
+    gap: 10px; /* 버튼 간격 */
+    margin-top: 20px;
+}
+
+
 /* 미디어 쿼리: 모바일용 */
 @media (max-width: 768px) {
     .sidebar {

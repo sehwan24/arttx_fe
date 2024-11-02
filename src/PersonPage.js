@@ -165,6 +165,10 @@ const PersonPage = () => {
         link.click();
     }
 
+    const submit = () => {
+        //submit to S3
+    };
+
     return (
         <div className="App">
             {isMobile && (
@@ -253,7 +257,10 @@ const PersonPage = () => {
                             </canvas>
                         </div>
                     )}
-                    <button onClick={saveCanvas}>제출하기</button>
+                    <div className="button-container">
+                        <button onClick={saveCanvas}>저장하기</button>
+                        <button onClick={submit}>제출하기</button>
+                    </div>
                 </header>
             </div>
         </div>
