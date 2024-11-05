@@ -50,17 +50,26 @@
 
 /* 메인 콘텐츠 */
 .main-content {
-    min-height: calc(100vh - 40px); /* 화면 높이에 맞게 설정, 상단 및 기타 패딩 고려 */
     display: flex;
-    justify-content: center; /* 수평 가운데 정렬 */
-    align-items: flex-start; /* 상단에 정렬 */
     flex-direction: column;
-    padding: 20px; /* 추가적인 여백 */
-    margin-left: 250px;
-    width: calc(100% - 250px);
+    align-items: center; /* 수평 가운데 정렬 */
+    justify-content: center; /* 수직 가운데 정렬 */
+    min-height: calc(100vh - 40px); /* 화면 높이 맞춤 */
+    padding: 20px; /* 추가 여백 */
+    margin-left: 250px; /* 사이드바 크기와 맞춤 */
+    width: calc(100% - 250px); /* 우측 공백 없애기 */
     transition: margin-left 0.3s ease;
-    text-align: center;
     box-sizing: border-box;
+    text-align: center;
+}
+
+/* 정사각형 캔버스 */
+canvas {
+    width: 100%; /* 부모 요소 너비에 맞춤 */
+    max-width: 76vh; /* 최대 너비 제한 (원하는 크기로 조정 가능) */
+    aspect-ratio: 1 / 1; /* 정사각형 비율 유지 */
+    border: 1px solid #000000;
+    margin-top: 20px;
 }
 
 
@@ -70,7 +79,7 @@
     justify-content: flex-start;
     align-items: center;
     width: 100%;
-    padding-top: 20px;
+    padding-top: 0px;
 }
 
 .App-header h1 {
@@ -78,11 +87,7 @@
     font-size: 24px;
 }
 
-canvas {
-    margin-top: 20px;
-    max-width: 100%;
-    border: 1px solid #000000;
-}
+
 
 /* 도구 컨테이너 스타일 */
 .tool-container {
