@@ -175,7 +175,6 @@ const HousePage = () => {
                     &#9776;
                 </button>
             )}
-
             <div className={`sidebar ${isMenuOpen || !isMobile ? 'open' : ''}`}>
                 <ul>
                     <li><a href="/house">집 검사하기</a></li>
@@ -183,77 +182,39 @@ const HousePage = () => {
                     <li><a href="/person">사람 검사하기</a></li>
                 </ul>
             </div>
-
             <div className="main-content">
                 <header className="App-header">
                     <h1>집을 그려주세요.</h1>
-                    {isMobile ? (
-                        <div>
-                            <input
-                                type="color"
-                                value={penColor}
-                                onChange={(e) => setPenColor(e.target.value)}
-                                disabled={isEraser}
-                            />
-                            <input
-                                type="range"
-                                min="1"
-                                max="50"
-                                value={lineWidth}
-                                onChange={(e) => setLineWidth(e.target.value)}
-                            />
-                            <button onClick={() => setIsEraser(false)}>펜</button>
-                            <button onClick={() => setIsEraser(true)}>지우개</button>
-                            <button onClick={() => {
-                                const canvas = canvasRef.current;
-                                const ctx = canvas.getContext('2d');
-                                ctx.clearRect(0, 0, canvas.width, canvas.height);
-                            }}>전체 지우기</button>
-                            <input type="file" accept="image/*" onChange={handleImageUpload} />
-                            <canvas
-                                ref={canvasRef}
-                                id="drawingCanvas"
-                                style={{
-                                    border: '1px solid #000000',
-                                    backgroundColor: 'white',
-                                    width: '100%',
-                                    height: '400px',
-                                }}></canvas>
-                        </div>
-                    ) : (
-                        <div>
-                            <input
-                                type="color"
-                                value={penColor}
-                                onChange={(e) => setPenColor(e.target.value)}
-                                disabled={isEraser}
-                            />
-                            <input
-                                type="range"
-                                min="1"
-                                max="50"
-                                value={lineWidth}
-                                onChange={(e) => setLineWidth(e.target.value)}
-                            />
-                            <button onClick={() => setIsEraser(false)}>펜</button>
-                            <button onClick={() => setIsEraser(true)}>지우개</button>
-                            <button onClick={() => {
-                                const canvas = canvasRef.current;
-                                const ctx = canvas.getContext('2d');
-                                ctx.clearRect(0, 0, canvas.width, canvas.height);
-                            }}>전체 지우기</button>
-                            <input type="file" accept="image/*" onChange={handleImageUpload} />
-                            <canvas
-                                ref={canvasRef}
-                                id="drawingCanvas"
-                                style={{
-                                    border: '1px solid #000000',
-                                    backgroundColor: 'white',
-                                    width: '100%',
-                                    height: '600px',
-                                }}></canvas>
-                        </div>
-                    )}
+
+                    {/* 도구 컨테이너 */}
+                    <div className="tool-container">
+                        <input
+                            type="color"
+                            value={penColor}
+                            onChange={(e) => setPenColor(e.target.value)}
+                            disabled={isEraser}
+                        />
+                        <input
+                            type="range"
+                            min="1"
+                            max="50"
+                            value={lineWidth}
+                            onChange={(e) => setLineWidth(e.target.value)}
+                        />
+                        <button onClick={() => setIsEraser(false)}>펜</button>
+                        <button onClick={() => setIsEraser(true)}>지우개</button>
+                        <button onClick={() => {
+                            const canvas = canvasRef.current;
+                            const ctx = canvas.getContext('2d');
+                            ctx.clearRect(0, 0, canvas.width, canvas.height);
+                        }}>전체 지우기</button>
+                        <input type="file" accept="image/*" onChange={handleImageUpload} />
+                    </div>
+
+                    {/* 캔버스 */}
+                    <canvas ref={canvasRef} id="drawingCanvas"></canvas>
+
+                    {/* 버튼 컨테이너 */}
                     <div className="button-container">
                         <button onClick={saveCanvas}>저장하기</button>
                         <button onClick={goToNextPage}>다음으로</button>
@@ -261,6 +222,7 @@ const HousePage = () => {
                 </header>
             </div>
         </div>
+
     );
 };
 

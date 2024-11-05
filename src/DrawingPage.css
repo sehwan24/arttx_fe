@@ -11,13 +11,13 @@
     height: 100vh;
     position: fixed;
     top: 0;
-    left: -250px; /* 기본적으로 화면에서 숨김 */
+    left: -250px;
     transition: left 0.3s ease;
     z-index: 1000;
 }
 
 .sidebar.open {
-    left: 0; /* 메뉴가 열리면 보이도록 설정 */
+    left: 0;
 }
 
 .sidebar ul {
@@ -32,7 +32,7 @@
 .sidebar ul li a {
     color: white;
     text-decoration: none;
-    font-size: 16px; /* 링크 텍스트 크기 */
+    font-size: 16px;
 }
 
 /* 햄버거 메뉴 버튼 */
@@ -52,48 +52,40 @@
 .main-content {
     display: flex;
     flex-direction: column;
-    align-items: center; /* 수평 가운데 정렬 */
-    justify-content: center; /* 수직 가운데 정렬 */
-    min-height: calc(100vh - 40px); /* 화면 높이 맞춤 */
-    padding: 20px; /* 추가 여백 */
-    margin-left: 250px; /* 사이드바 크기와 맞춤 */
-    width: calc(100% - 250px); /* 우측 공백 없애기 */
-    transition: margin-left 0.3s ease;
+    align-items: center;
+    justify-content: center;
+    min-height: calc(100vh - 40px);
+    padding: 20px;
+    margin-left: 250px;
+    width: calc(100% - 250px);
     box-sizing: border-box;
     text-align: center;
 }
 
-/* 정사각형 캔버스 */
-canvas {
-    width: 100%; /* 부모 요소 너비에 맞춤 */
-    max-width: 76vh; /* 최대 너비 제한 (원하는 크기로 조정 가능) */
-    aspect-ratio: 1 / 1; /* 정사각형 비율 유지 */
-    border: 1px solid #000000;
-    margin-top: 20px;
-}
-
-
+/* 헤더 */
 .App-header {
     display: flex;
     flex-direction: column;
-    justify-content: flex-start;
     align-items: center;
     width: 100%;
-    padding-top: 0px;
 }
 
-.App-header h1 {
-    margin-bottom: 20px;
-    font-size: 24px;
+/* 정사각형 캔버스 */
+canvas {
+    width: 90%;
+    max-width: 600px;
+    max-height: 80vh;
+    aspect-ratio: 1 / 1;
+    border: 1px solid #000000;
+    margin-top: 20px;
+    background-color: white;
 }
 
-
-
-/* 도구 컨테이너 스타일 */
+/* 도구 및 버튼 컨테이너 */
 .tool-container {
     display: flex;
     align-items: center;
-    gap: 8px; /* 요소 간 간격 */
+    gap: 8px;
     margin-bottom: 10px;
 }
 
@@ -101,7 +93,7 @@ canvas {
 .tool-container input[type="range"],
 .tool-container button,
 .tool-container input[type="file"] {
-    height: 36px; /* 모든 요소 동일 높이 */
+    height: 36px;
     padding: 0 8px;
     border: 1px solid #ccc;
     border-radius: 4px;
@@ -109,11 +101,10 @@ canvas {
     cursor: pointer;
 }
 
-/* 파일 입력 버튼 스타일 조정 */
 .tool-container input[type="file"] {
     width: auto;
     padding: 0;
-    background-color: #f0f0f0; /* 다른 버튼들과 동일한 배경색 */
+    background-color: #f0f0f0;
     border: 1px solid #ccc;
     border-radius: 4px;
     height: 36px;
@@ -126,29 +117,28 @@ canvas {
 }
 
 .tool-container input[type="range"] {
-    width: 100px; /* 슬라이더 너비 조정 */
+    width: 100px;
 }
 
 /* 버튼 컨테이너 스타일 */
 .button-container {
     display: flex;
-    gap: 10px; /* 버튼 간격 */
+    gap: 10px;
     margin-top: 20px;
 }
-
 
 /* 미디어 쿼리: 모바일용 */
 @media (max-width: 768px) {
     .sidebar {
-        left: -250px; /* 모바일에서는 숨겨진 상태 */
+        left: -250px;
     }
 
     .sidebar.open {
-        left: 0; /* 모바일에서 메뉴가 열리면 보임 */
+        left: 0;
     }
 
     .main-content {
-        margin-left: 0; /* 모바일에서 메뉴 숨길 때 전체 너비 사용 */
+        margin-left: 0;
         width: 100%;
         padding-top: 25px;
     }
@@ -158,6 +148,6 @@ canvas {
     }
 
     .tool-container input[type="range"] {
-        width: 80px; /* 모바일에서 슬라이더 너비 조정 */
+        width: 80px;
     }
 }
