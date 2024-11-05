@@ -209,7 +209,10 @@ const TreePage = () => {
                             const ctx = canvas.getContext('2d');
                             ctx.clearRect(0, 0, canvas.width, canvas.height);
                         }}>전체 지우기</button>
-                        <input type="file" accept="image/*" onChange={handleImageUpload} />
+                        <label className="file-input">
+                            파일 선택
+                            <input type="file" accept="image/*" onChange={handleImageUpload} />
+                        </label>
                     </div>
 
                     {/* 캔버스 */}

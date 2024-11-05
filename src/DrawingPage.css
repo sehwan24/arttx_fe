@@ -127,6 +127,33 @@ canvas {
     margin-top: 20px;
 }
 
+/* 파일 입력 버튼 스타일 */
+.file-input {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px 12px; /* 다른 버튼과 동일한 패딩 */
+    font-size: 14px;
+    font-weight: 500;
+    color: #333;
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    cursor: pointer;
+    height: 36px; /* 다른 버튼과 동일한 높이 */
+    box-sizing: border-box;
+}
+
+.file-input input[type="file"] {
+    display: none; /* 실제 파일 입력 요소 숨기기 */
+}
+
+.file-input:hover {
+    background-color: #e0e0e0;
+}
+
+
+
 /* 미디어 쿼리: 모바일용 */
 @media (max-width: 768px) {
     .sidebar {
