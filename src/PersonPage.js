@@ -167,6 +167,8 @@ const PersonPage = () => {
 
     const submit = () => {
         //submit to S3
+        //todo : 서버 응답 전까지 페이지 로딩 . ..
+        window.location.href = "/result";
     };
 
     return (
