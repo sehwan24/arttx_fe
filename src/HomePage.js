@@ -1,7 +1,27 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import './HomePage.css';
+import axios from "axios";
+
+
+
 
 const HomePage = () => {
+
+    const [data, setData] = useState('');
+
+    useEffect(() => {
+        axios.get(`${process.env.REACT_APP_API_URL}/api/test/1`, {
+            withCredentials: true
+        })
+            .then(response => {
+                setData(response.data);
+            })
+            .catch(error => {
+                console.error('Error fetching data:', error);
+            });
+    }, []);
+
+
     return (
         <div>
             <nav className="container-fluid">
@@ -22,6 +42,7 @@ const HomePage = () => {
                     <a href="/draw" className="start-button">
                         HTP 검사 시작하기
                     </a>
+                    <p>{data ? `서버 응답: ${data}` : '데이터 로딩 중...'}</p>
                 </div>
             </main>
 
