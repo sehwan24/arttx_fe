@@ -144,9 +144,10 @@ const HousePage = () => {
     };
 
     // 캔버스를 이미지 파일로 저장하는 함수
-    const saveCanvas = () => {
+    const saveCanvas = async () => {
         const canvas = canvasRef.current;
-        const link = document.createElement('a');
+        if (!canvas) return;
+
         // 임시 캔버스를 생성하고, 그 위에 현재 캔버스를 복사
         const tempCanvas = document.createElement('canvas');
         const ctx = tempCanvas.getContext('2d');
@@ -158,11 +159,32 @@ const HousePage = () => {
         ctx.fillRect(0, 0, tempCanvas.width, tempCanvas.height);
         ctx.drawImage(canvas, 0, 0);
 
-        // 이미지 저장을 위해 임시 캔버스를 JPG 형식으로 변환
-        link.href = tempCanvas.toDataURL('image/jpeg');
-        link.download = 'canvas-drawing.jpg';
-        link.click();
-    }
+        // 캔버스를 Blob 형식으로 변환
+        tempCanvas.toBlob(async (blob) => {
+            if (!blob) {
+                console.error('Failed to convert canvas to blob.');
+                return;
+            }
+
+            // FormData에 이미지 추가
+            const formData = new FormData();
+            formData.append('image', blob, 'canvas-drawing.jpg');
+
+            try {
+                // 서버로 업로드 요청 보내기
+                const response = await axios.post(`${process.env.REACT_APP_API_URL}/api/image/house`, formData, {
+                    headers: {
+                        'Content-Type': 'multipart/form-data',
+                    },
+                    withCredentials: true, // 필요 시 추가
+                });
+                console.log('Image uploaded successfully:', response.data);
+            } catch (error) {
+                console.error('Error uploading image:', error);
+            }
+        }, 'image/jpeg'); // 이미지 형식 설정
+    };
+
 
     const goToNextPage = () => {
         window.location.href = "/tree"; // Adjust URL as necessary
