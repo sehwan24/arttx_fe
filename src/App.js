@@ -6,6 +6,7 @@ import HousePage from "./HousePage";
 import PersonPage from "./PersonPage";
 import TreePage from "./TreePage";
 import ResultPage from "./ResultPage";
+import ChattingPage from "./ChattingPage";
 
 function App() {
     return (
@@ -20,6 +21,7 @@ function App() {
                 <Route path="/person" element={<PersonPage />} />
                 <Route path="/tree" element={<TreePage />} />
                 <Route path="/result" element={<ResultPage />} />
+                <Route path="/chatting" element={<ChattingPage />} />
             </Routes>
         </Router>
     );
