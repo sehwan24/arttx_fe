@@ -179,6 +179,8 @@ const HousePage = () => {
                     withCredentials: true, // 필요 시 추가
                 });
                 console.log('Image uploaded successfully:', response.data);
+                // 응답 데이터를 로컬 스토리지에 저장
+                localStorage.setItem('houseResponse', JSON.stringify(response.data));
             } catch (error) {
                 console.error('Error uploading image:', error);
             }
