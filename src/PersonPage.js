@@ -16,10 +16,6 @@ const PersonPage = () => {
     const [lineWidth, setLineWidth] = useState(5);
     const [isLoading, setIsLoading] = useState(false); // 로딩 상태 관리
 
-    console.log("houseResponse");
-    console.log(localStorage.getItem('houseResponse'));
-    console.log("treeResponse");
-    console.log(localStorage.getItem('treeResponse'));
 
     const toggleMenu = () => {
         setIsMenuOpen(!isMenuOpen);
@@ -151,7 +147,7 @@ const PersonPage = () => {
     };
 
     // 캔버스를 이미지 파일로 저장하는 함수
-    const saveCanvas = async () => {
+    const saveCanvas = () => {
         const canvas = canvasRef.current;
         if (!canvas) return;
 
@@ -169,7 +165,7 @@ const PersonPage = () => {
         ctx.drawImage(canvas, 0, 0);
 
         // 캔버스를 Blob 형식으로 변환
-        tempCanvas.toBlob(async (blob) => {
+        tempCanvas.toBlob((blob) => {
             if (!blob) {
                 console.error('Failed to convert canvas to blob.');
                 setIsLoading(false); // 로딩 상태 비활성화
@@ -180,25 +176,29 @@ const PersonPage = () => {
             const formData = new FormData();
             formData.append('image', blob, 'canvas-drawing.jpg');
 
-            try {
-                // 서버로 업로드 요청 보내기
-                const response = await axios.post(`${process.env.REACT_APP_API_URL}/api/image/person`, formData, {
-                    headers: {
-                        'Content-Type': 'multipart/form-data',
-                    },
-                    withCredentials: true, // 필요 시 추가
+            // 서버로 업로드 요청 보내기
+            axios.post(`${process.env.REACT_APP_API_URL}/api/image/person`, formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                },
+                withCredentials: true, // 필요 시 추가
+            })
+                .then((response) => {
+                    console.log('Image uploaded successfully:', response.data);
+                    // 응답 데이터를 로컬 스토리지에 저장
+                    localStorage.setItem('personResponse', JSON.stringify(response.data));
+                    // 페이지 이동
+                    window.location.href = "/chatting";
+                })
+                .catch((error) => {
+                    console.error('Error uploading image:', error);
+                    alert('이미지 업로드 중 오류가 발생했습니다. 다시 시도해주세요.');
+                })
+                .finally(() => {
+                    // 로딩 상태 비활성화
+                    setIsLoading(false);
                 });
-                console.log('Image uploaded successfully:', response.data);
-                // 응답 데이터를 로컬 스토리지에 저장
-                localStorage.setItem('personResponse', JSON.stringify(response.data));
-            } catch (error) {
-                console.error('Error uploading image:', error);
-            } finally {
-                // 로딩 상태 비활성화
-                setIsLoading(false);
-            }
         }, 'image/jpeg'); // 이미지 형식 설정
-        window.location.href = "/chatting";
     };
 
     /*const submit = () => {

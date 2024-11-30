@@ -15,8 +15,6 @@ const TreePage = () => {
     const [isEraser, setIsEraser] = useState(false);
     const [lineWidth, setLineWidth] = useState(5);
 
-    console.log("houseResponse");
-    console.log(localStorage.getItem('houseResponse'));
 
     const toggleMenu = () => {
         setIsMenuOpen(!isMenuOpen);
@@ -148,7 +146,7 @@ const TreePage = () => {
     };
 
     // 캔버스를 이미지 파일로 저장하는 함수
-    const saveCanvas = async () => {
+    const saveCanvas = () => {
         const canvas = canvasRef.current;
         if (!canvas) return;
 
@@ -164,7 +162,7 @@ const TreePage = () => {
         ctx.drawImage(canvas, 0, 0);
 
         // 캔버스를 Blob 형식으로 변환
-        tempCanvas.toBlob(async (blob) => {
+        tempCanvas.toBlob( (blob) => {
             if (!blob) {
                 console.error('Failed to convert canvas to blob.');
                 return;
@@ -174,20 +172,22 @@ const TreePage = () => {
             const formData = new FormData();
             formData.append('image', blob, 'canvas-drawing.jpg');
 
-            try {
-                // 서버로 업로드 요청 보내기
-                const response = await axios.post(`${process.env.REACT_APP_API_URL}/api/image/tree`, formData, {
-                    headers: {
-                        'Content-Type': 'multipart/form-data',
-                    },
-                    withCredentials: true, // 필요 시 추가
+            // 요청 비동기 실행
+            axios.post(`${process.env.REACT_APP_API_URL}/api/image/tree`, formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                },
+                withCredentials: true,
+            })
+                .then((response) => {
+                    console.log('Image uploaded successfully:', response.data);
+
+                    // 요청 응답을 localStorage에 저장
+                    localStorage.setItem('treeResponse', JSON.stringify(response.data));
+                })
+                .catch((error) => {
+                    console.error('Error uploading image:', error);
                 });
-                console.log('Image uploaded successfully:', response.data);
-                // 응답 데이터를 로컬 스토리지에 저장
-                localStorage.setItem('treeResponse', JSON.stringify(response.data));
-            } catch (error) {
-                console.error('Error uploading image:', error);
-            }
         }, 'image/jpeg'); // 이미지 형식 설정
         window.location.href = "/person";
     };
