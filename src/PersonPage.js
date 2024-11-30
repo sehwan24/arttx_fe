@@ -16,6 +16,11 @@ const PersonPage = () => {
     const [lineWidth, setLineWidth] = useState(5);
     const [isLoading, setIsLoading] = useState(false); // 로딩 상태 관리
 
+    console.log("houseResponse");
+    console.log(localStorage.getItem('houseResponse'));
+    console.log("treeResponse");
+    console.log(localStorage.getItem('treeResponse'));
+
     const toggleMenu = () => {
         setIsMenuOpen(!isMenuOpen);
     };
@@ -147,8 +152,6 @@ const PersonPage = () => {
 
     // 캔버스를 이미지 파일로 저장하는 함수
     const saveCanvas = async () => {
-        console.log(localStorage.getItem('houseResponse'));
-        console.log(localStorage.getItem('treeResponse'));
         const canvas = canvasRef.current;
         if (!canvas) return;
 
