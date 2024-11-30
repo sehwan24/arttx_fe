@@ -187,7 +187,7 @@ const PersonPage = () => {
                     console.log('Image uploaded successfully:', response.data);
                     // 응답 데이터를 로컬 스토리지에 저장
                     localStorage.setItem('personResponse', JSON.stringify(response.data));
-                    localStorage.setItem('firstChatting', JSON.stringify(response.data.get("firstChatting'")));
+                    localStorage.setItem('firstChatting', response.data.firstChatting);
                     // 페이지 이동
                     window.location.href = "/chatting";
                 })
