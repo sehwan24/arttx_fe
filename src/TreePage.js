@@ -185,8 +185,6 @@ const TreePage = () => {
                     // 요청 응답을 localStorage에 저장
                     localStorage.setItem('treeResponse', JSON.stringify(response.data));
 
-                    // 업로드 성공 후 페이지 이동
-                    window.location.href = "/person";
                 })
                 .catch((error) => {
                     console.error('Error uploading image:', error);
@@ -195,6 +193,8 @@ const TreePage = () => {
                     alert('이미지 업로드 중 오류가 발생했습니다. 다시 시도해주세요.');
                 });
         }, 'image/jpeg'); // 이미지 형식 설정
+        // 업로드 성공 후 페이지 이동
+        window.location.href = "/person";
     };
 
 
