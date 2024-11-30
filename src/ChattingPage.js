@@ -58,7 +58,7 @@ const ChattingPage = () => {
             setIsSending(true);
             const response = await axios.post(
                 `${process.env.REACT_APP_API_URL}/api/chatting/new`,
-                { message: input },
+                { message: input.trim() },
                 {
                     headers: {
                         "Content-Type": "application/json"
