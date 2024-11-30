@@ -13,21 +13,16 @@ const ChattingPage = () => {
     useEffect(() => {
         const fetchFirstChatting = async () => {
             try {
-                // 로컬 스토리지 확인
-                const localMessages = localStorage.getItem("firstChatting");
-                if (localMessages) {
-                    const parsedMessages = JSON.parse(localMessages);
-                    setMessages(Array.isArray(parsedMessages) ? parsedMessages : [{ sender: "bot", text: parsedMessages }]);
-                    setIsLoading(false);
-                    return;
-                }
-
                 // 서버로부터 firstChatting 데이터를 GET 요청으로 가져옴
                 const response = await axios.get(
                     `${process.env.REACT_APP_API_URL}/api/chatting/first`,
-                    { withCredentials: true }
+                    {
+                        withCredentials: true,
+                        headers: {
+                            "Accept": "application/json", // JSON 형식 요청 명시
+                        },
+                    }
                 );
-
                 console.log("Server response:", response);
 
                 const firstChatting = response.data.data.firstChatting;
@@ -39,8 +34,6 @@ const ChattingPage = () => {
 
                 setMessages(formattedMessages);
 
-                // 로컬스토리지에 저장
-                localStorage.setItem("firstChatting", JSON.stringify(formattedMessages));
             } catch (error) {
                 console.error("Error fetching first chatting messages:", error);
                 setMessages([
@@ -78,8 +71,6 @@ const ChattingPage = () => {
             const updatedMessages = [...newMessages, { sender: "bot", text: botReply }];
             setMessages(updatedMessages);
 
-            // 로컬스토리지 업데이트
-            localStorage.setItem("firstChatting", JSON.stringify(updatedMessages));
         } catch (error) {
             console.error("Error sending message:", error);
             const errorMessages = [
@@ -88,8 +79,7 @@ const ChattingPage = () => {
             ];
             setMessages(errorMessages);
 
-            // 로컬스토리지 업데이트
-            localStorage.setItem("firstChatting", JSON.stringify(errorMessages));
+
         } finally {
             setIsSending(false);
         }
