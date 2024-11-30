@@ -14,6 +14,7 @@ const PersonPage = () => {
     const [penColor, setPenColor] = useState('#000000');
     const [isEraser, setIsEraser] = useState(false);
     const [lineWidth, setLineWidth] = useState(5);
+    const [isLoading, setIsLoading] = useState(false); // 로딩 상태 관리
 
     const toggleMenu = () => {
         setIsMenuOpen(!isMenuOpen);
@@ -149,6 +150,8 @@ const PersonPage = () => {
         const canvas = canvasRef.current;
         if (!canvas) return;
 
+        setIsLoading(true);
+
         // 임시 캔버스를 생성하고, 그 위에 현재 캔버스를 복사
         const tempCanvas = document.createElement('canvas');
         const ctx = tempCanvas.getContext('2d');
@@ -164,6 +167,7 @@ const PersonPage = () => {
         tempCanvas.toBlob(async (blob) => {
             if (!blob) {
                 console.error('Failed to convert canvas to blob.');
+                setIsLoading(false); // 로딩 상태 비활성화
                 return;
             }
 
@@ -182,15 +186,19 @@ const PersonPage = () => {
                 console.log('Image uploaded successfully:', response.data);
             } catch (error) {
                 console.error('Error uploading image:', error);
+            } finally {
+                // 로딩 상태 비활성화
+                setIsLoading(false);
             }
         }, 'image/jpeg'); // 이미지 형식 설정
+        window.location.href = "/chatting";
     };
 
-    const submit = () => {
+    /*const submit = () => {
         //submit to S3
         //todo : 서버 응답 전까지 페이지 로딩 . ..
         window.location.href = "/chatting";
-    };
+    };*/
 
     return (
         <div className="App">
@@ -243,11 +251,19 @@ const PersonPage = () => {
 
                     {/* 버튼 컨테이너 */}
                     <div className="button-container">
-                        <button onClick={saveCanvas}>저장하기</button>
-                        <button onClick={submit}>제출하기</button>
+                        <button onClick={saveCanvas}>제출하기</button>
+                        {/*<button onClick={submit}>제출하기</button>*/}
                     </div>
                 </header>
             </div>
+
+            {/* 로딩 상태 */}
+            {isLoading && (
+                <div className="loading-overlay">
+                    <div className="spinner"></div>
+                    <p>결과를 분석 중입니다. 잠시만 기다려주세요...</p>
+                </div>
+            )}
         </div>
     );
 };

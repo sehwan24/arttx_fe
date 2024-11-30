@@ -183,6 +183,7 @@ const HousePage = () => {
                 console.error('Error uploading image:', error);
             }
         }, 'image/jpeg'); // 이미지 형식 설정
+        window.location.href = "/tree";
     };
 
 
@@ -241,8 +242,8 @@ const HousePage = () => {
 
                     {/* 버튼 컨테이너 */}
                     <div className="button-container">
-                        <button onClick={saveCanvas}>저장하기</button>
-                        <button onClick={goToNextPage}>다음으로</button>
+                        <button onClick={saveCanvas}>다음으로</button>
+                        {/* <button onClick={goToNextPage}>다음으로</button> */}
                     </div>
                 </header>
             </div>
