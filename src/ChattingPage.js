@@ -66,7 +66,12 @@ const ChattingPage = () => {
             const response = await axios.post(
                 `${process.env.REACT_APP_API_URL}/api/chatting/new`,
                 { message: input },
-                { withCredentials: true }
+                {
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    withCredentials: true,
+                }
             );
 
             const botReply = response.data.reply || "Sorry, I couldn't understand that.";
