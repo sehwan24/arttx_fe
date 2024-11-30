@@ -52,10 +52,14 @@ const ChattingPage = () => {
 
         const newMessages = [...messages, { sender: "user", text: input }];
         setMessages(newMessages);
+        console.log(1)
+        console.log(input);
         setInput("");
 
         try {
             setIsSending(true);
+            console.log(3);
+            console.log(input.trim());
             const response = await axios.post(
                 `${process.env.REACT_APP_API_URL}/api/chatting/new`,
                 { message: input.trim() },
@@ -66,7 +70,6 @@ const ChattingPage = () => {
                     withCredentials: true,
                 }
             );
-
             const botReply = response.data.reply || "Sorry, I couldn't understand that.";
             const updatedMessages = [...newMessages, { sender: "bot", text: botReply }];
             setMessages(updatedMessages);
