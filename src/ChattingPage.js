@@ -22,6 +22,8 @@ const ChattingPage = () => {
                     { withCredentials: true }
                 );
 
+                console.log(response)
+
                 // 응답 데이터를 상태에 저장
                 setMessages(response.data.messages || [
                     { sender: "bot", text: "Hello! How can I assist you today?" }
