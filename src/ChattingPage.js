@@ -25,14 +25,14 @@ const ChattingPage = () => {
                 console.log(response)
 
                 // 응답 데이터를 상태에 저장
-                setMessages(response.data.messages || [
+                setMessages(response.data.data.firstChatting || [
                     { sender: "bot", text: "Hello! How can I assist you today?" }
                 ]);
 
                 // 로컬 스토리지 업데이트 (선택사항)
                 localStorage.setItem(
                     "firstChatting",
-                    JSON.stringify(response.data.messages)
+                    JSON.stringify(response.data.data.firstChatting)
                 );
             } catch (error) {
                 console.error("Error fetching first chatting messages:", error);
