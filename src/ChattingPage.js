@@ -7,14 +7,20 @@ const ChattingPage = () => {
     const isMobile = useMediaQuery({ query: "(max-width: 768px)" });
     const [messages, setMessages] = useState([]);
     const [input, setInput] = useState("");
-    const [isSending, setIsSending] = useState(false); // 메시지 전송 상태 관리
-    const [isLoading, setIsLoading] = useState(true); // 로딩 상태 관리
+    const [isSending, setIsSending] = useState(false);
+    const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
         const fetchFirstChatting = async () => {
             try {
-                // 로딩 시작
-                setIsLoading(true);
+                // 로컬 스토리지 확인
+                const localMessages = localStorage.getItem("firstChatting");
+                if (localMessages) {
+                    const parsedMessages = JSON.parse(localMessages);
+                    setMessages(Array.isArray(parsedMessages) ? parsedMessages : [{ sender: "bot", text: parsedMessages }]);
+                    setIsLoading(false);
+                    return;
+                }
 
                 // 서버로부터 firstChatting 데이터를 GET 요청으로 가져옴
                 const response = await axios.get(
@@ -22,27 +28,25 @@ const ChattingPage = () => {
                     { withCredentials: true }
                 );
 
-                console.log(response)
+                console.log("Server response:", response);
 
-                // 응답 데이터를 상태에 저장
-                setMessages(response.data.data.firstChatting || [
-                    { sender: "bot", text: "Hello! How can I assist you today?" }
-                ]);
+                const firstChatting = response.data.data.firstChatting;
 
-                // 로컬 스토리지 업데이트 (선택사항)
-                localStorage.setItem(
-                    "firstChatting",
-                    JSON.stringify(response.data.data.firstChatting)
-                );
+                // 문자열을 배열로 변환
+                const formattedMessages = Array.isArray(firstChatting)
+                    ? firstChatting
+                    : [{ sender: "bot", text: firstChatting }];
+
+                setMessages(formattedMessages);
+
+                // 로컬스토리지에 저장
+                localStorage.setItem("firstChatting", JSON.stringify(formattedMessages));
             } catch (error) {
                 console.error("Error fetching first chatting messages:", error);
-
-                // 에러 발생 시 기본 메시지로 설정
                 setMessages([
                     { sender: "bot", text: "Sorry, we couldn't load the chat. Please try again later." }
                 ]);
             } finally {
-                // 로딩 종료
                 setIsLoading(false);
             }
         };
@@ -58,34 +62,38 @@ const ChattingPage = () => {
         setInput("");
 
         try {
-            setIsSending(true); // 전송 중 상태
-            // 메시지 서버로 전송
+            setIsSending(true);
             const response = await axios.post(
-                `${process.env.REACT_APP_API_URL}/api/chatting/new`, // 서버의 API 엔드포인트
+                `${process.env.REACT_APP_API_URL}/api/chatting/new`,
                 { message: input },
                 { withCredentials: true }
             );
 
-            // 서버의 응답 추가
-            setMessages((prev) => [
-                ...prev,
-                { sender: "bot", text: response.data.reply } // 서버에서 reply라는 필드로 응답한다고 가정
-            ]);
+            const botReply = response.data.reply || "Sorry, I couldn't understand that.";
+            const updatedMessages = [...newMessages, { sender: "bot", text: botReply }];
+            setMessages(updatedMessages);
+
+            // 로컬스토리지 업데이트
+            localStorage.setItem("firstChatting", JSON.stringify(updatedMessages));
         } catch (error) {
             console.error("Error sending message:", error);
-            setMessages((prev) => [
-                ...prev,
+            const errorMessages = [
+                ...newMessages,
                 { sender: "bot", text: "Sorry, there was an error. Please try again later." }
-            ]);
+            ];
+            setMessages(errorMessages);
+
+            // 로컬스토리지 업데이트
+            localStorage.setItem("firstChatting", JSON.stringify(errorMessages));
         } finally {
-            setIsSending(false); // 전송 상태 해제
+            setIsSending(false);
         }
     };
 
     const handleKeyDown = (e) => {
         if (e.key === "Enter") {
-            e.preventDefault(); // Enter 키의 기본 동작(폼 제출) 방지
-            handleSendMessage(); // 메시지 전송 함수 호출
+            e.preventDefault();
+            handleSendMessage();
         }
     };
 
@@ -105,10 +113,10 @@ const ChattingPage = () => {
                     <h1>{isMobile ? "Mobile Chat" : "대화해요."}</h1>
                 </div>
 
-                {isLoading ? ( // 로딩 상태 표시
+                {isLoading ? (
                     <div className="chat-loading">
                         <p>Loading chat...</p>
-                        <div className="spinner"></div> {/* CSS로 스피너 구현 */}
+                        <div className="spinner"></div>
                     </div>
                 ) : (
                     <div className="chat-messages">
@@ -128,9 +136,9 @@ const ChattingPage = () => {
                         type="text"
                         value={input}
                         onChange={(e) => setInput(e.target.value)}
-                        onKeyDown={handleKeyDown} // Enter 키 입력 감지
+                        onKeyDown={handleKeyDown}
                         placeholder="Type a message..."
-                        disabled={isSending || isLoading} // 전송 중이나 로딩 중일 때 입력 비활성화
+                        disabled={isSending || isLoading}
                     />
                     <button onClick={handleSendMessage} disabled={isSending || isLoading}>
                         {isSending ? "Sending..." : "Send"}
