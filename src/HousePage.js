@@ -182,13 +182,16 @@ const HousePage = () => {
 
                     // 요청 응답을 localStorage에 저장
                     localStorage.setItem('houseResponse', JSON.stringify(response.data));
+
+                    // 요청 성공 후 페이지 이동
+                    window.location.href = "/tree";
                 })
                 .catch((error) => {
                     console.error('Error uploading image:', error);
                 });
         }, 'image/jpeg'); // 이미지 형식 설정
-        window.location.href = "/tree";
     };
+
 
 
     const goToNextPage = () => {

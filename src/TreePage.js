@@ -162,7 +162,7 @@ const TreePage = () => {
         ctx.drawImage(canvas, 0, 0);
 
         // 캔버스를 Blob 형식으로 변환
-        tempCanvas.toBlob( (blob) => {
+        tempCanvas.toBlob((blob) => {
             if (!blob) {
                 console.error('Failed to convert canvas to blob.');
                 return;
@@ -172,7 +172,7 @@ const TreePage = () => {
             const formData = new FormData();
             formData.append('image', blob, 'canvas-drawing.jpg');
 
-            // 요청 비동기 실행
+            // 비동기 요청 실행
             axios.post(`${process.env.REACT_APP_API_URL}/api/image/tree`, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
@@ -184,13 +184,19 @@ const TreePage = () => {
 
                     // 요청 응답을 localStorage에 저장
                     localStorage.setItem('treeResponse', JSON.stringify(response.data));
+
+                    // 업로드 성공 후 페이지 이동
+                    window.location.href = "/person";
                 })
                 .catch((error) => {
                     console.error('Error uploading image:', error);
+
+                    // 실패 시 사용자에게 알림
+                    alert('이미지 업로드 중 오류가 발생했습니다. 다시 시도해주세요.');
                 });
         }, 'image/jpeg'); // 이미지 형식 설정
-        window.location.href = "/person";
     };
+
 
     const goToNextPage = () => {
         window.location.href = "/person"; // Adjust URL as necessary
