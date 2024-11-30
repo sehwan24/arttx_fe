@@ -8,18 +8,44 @@ const ChattingPage = () => {
     const [messages, setMessages] = useState([]);
     const [input, setInput] = useState("");
     const [isSending, setIsSending] = useState(false); // 메시지 전송 상태 관리
+    const [isLoading, setIsLoading] = useState(true); // 로딩 상태 관리
 
     useEffect(() => {
-        const firstChatting = localStorage.getItem("firstChatting");
-        if (firstChatting) {
-            setMessages(JSON.parse(firstChatting));
-        } else {
-            const defaultMessage = [
-                { sender: "bot", text: "Hello! How can I assist you today?" }
-            ];
-            setMessages(defaultMessage);
-            localStorage.setItem("firstChatting", JSON.stringify(defaultMessage)); // 기본 메시지 저장
-        }
+        const fetchFirstChatting = async () => {
+            try {
+                // 로딩 시작
+                setIsLoading(true);
+
+                // 서버로부터 firstChatting 데이터를 GET 요청으로 가져옴
+                const response = await axios.get(
+                    `${process.env.REACT_APP_API_URL}/api/chatting/first`,
+                    { withCredentials: true }
+                );
+
+                // 응답 데이터를 상태에 저장
+                setMessages(response.data.messages || [
+                    { sender: "bot", text: "Hello! How can I assist you today?" }
+                ]);
+
+                // 로컬 스토리지 업데이트 (선택사항)
+                localStorage.setItem(
+                    "firstChatting",
+                    JSON.stringify(response.data.messages)
+                );
+            } catch (error) {
+                console.error("Error fetching first chatting messages:", error);
+
+                // 에러 발생 시 기본 메시지로 설정
+                setMessages([
+                    { sender: "bot", text: "Sorry, we couldn't load the chat. Please try again later." }
+                ]);
+            } finally {
+                // 로딩 종료
+                setIsLoading(false);
+            }
+        };
+
+        fetchFirstChatting();
     }, []);
 
     const handleSendMessage = async () => {
@@ -77,16 +103,23 @@ const ChattingPage = () => {
                     <h1>{isMobile ? "Mobile Chat" : "대화해요."}</h1>
                 </div>
 
-                <div className="chat-messages">
-                    {messages.map((msg, index) => (
-                        <div
-                            key={index}
-                            className={`chat-message ${msg.sender === "user" ? "user" : "bot"}`}
-                        >
-                            {msg.text}
-                        </div>
-                    ))}
-                </div>
+                {isLoading ? ( // 로딩 상태 표시
+                    <div className="chat-loading">
+                        <p>Loading chat...</p>
+                        <div className="spinner"></div> {/* CSS로 스피너 구현 */}
+                    </div>
+                ) : (
+                    <div className="chat-messages">
+                        {messages.map((msg, index) => (
+                            <div
+                                key={index}
+                                className={`chat-message ${msg.sender === "user" ? "user" : "bot"}`}
+                            >
+                                {msg.text}
+                            </div>
+                        ))}
+                    </div>
+                )}
 
                 <div className="chat-input">
                     <input
@@ -95,9 +128,9 @@ const ChattingPage = () => {
                         onChange={(e) => setInput(e.target.value)}
                         onKeyDown={handleKeyDown} // Enter 키 입력 감지
                         placeholder="Type a message..."
-                        disabled={isSending} // 전송 중일 때 입력 비활성화
+                        disabled={isSending || isLoading} // 전송 중이나 로딩 중일 때 입력 비활성화
                     />
-                    <button onClick={handleSendMessage} disabled={isSending}>
+                    <button onClick={handleSendMessage} disabled={isSending || isLoading}>
                         {isSending ? "Sending..." : "Send"}
                     </button>
                 </div>
