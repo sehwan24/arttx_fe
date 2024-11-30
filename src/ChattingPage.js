@@ -1,15 +1,26 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useMediaQuery } from "react-responsive";
 import axios from "axios";
 import "./ChattingPage.css";
 
 const ChattingPage = () => {
     const isMobile = useMediaQuery({ query: "(max-width: 768px)" });
-    const [messages, setMessages] = useState([
-        { sender: "bot", text: "Hello! How can I assist you today?" }
-    ]);
+    const [messages, setMessages] = useState([]);
     const [input, setInput] = useState("");
     const [isSending, setIsSending] = useState(false); // 메시지 전송 상태 관리
+
+    useEffect(() => {
+        const firstChatting = localStorage.getItem("firstChatting");
+        if (firstChatting) {
+            setMessages(JSON.parse(firstChatting));
+        } else {
+            const defaultMessage = [
+                { sender: "bot", text: "Hello! How can I assist you today?" }
+            ];
+            setMessages(defaultMessage);
+            localStorage.setItem("firstChatting", JSON.stringify(defaultMessage)); // 기본 메시지 저장
+        }
+    }, []);
 
     const handleSendMessage = async () => {
         if (input.trim() === "") return;
