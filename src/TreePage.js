@@ -146,6 +146,7 @@ const TreePage = () => {
 
     // 캔버스를 이미지 파일로 저장하는 함수
     const saveCanvas = async () => {
+        console.log(localStorage.getItem('houseResponse'));
         const canvas = canvasRef.current;
         if (!canvas) return;
 
