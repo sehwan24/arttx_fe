@@ -7,40 +7,36 @@ const ChattingPage = () => {
     const isMobile = useMediaQuery({ query: "(max-width: 768px)" });
     const [messages, setMessages] = useState([]);
     const [input, setInput] = useState("");
-    const [isSending, setIsSending] = useState(false);
-    const [isLoading, setIsLoading] = useState(true);
+    const [isLoading, setIsLoading] = useState(false); // 로딩 상태 통합 관리
 
     useEffect(() => {
         const fetchFirstChatting = async () => {
+            setIsLoading(true); // 초기 로딩 시작
             try {
-                // 서버로부터 firstChatting 데이터를 GET 요청으로 가져옴
                 const response = await axios.get(
                     `${process.env.REACT_APP_API_URL}/api/chatting/first`,
                     {
                         withCredentials: true,
                         headers: {
-                            "Accept": "application/json", // JSON 형식 요청 명시
+                            Accept: "application/json",
                         },
                     }
                 );
-                console.log("Server response:", response);
-
                 const firstChatting = response.data.data.firstChatting;
-
-                // 문자열을 배열로 변환
                 const formattedMessages = Array.isArray(firstChatting)
                     ? firstChatting
                     : [{ sender: "bot", text: firstChatting }];
-
                 setMessages(formattedMessages);
-
             } catch (error) {
                 console.error("Error fetching first chatting messages:", error);
                 setMessages([
-                    { sender: "bot", text: "Sorry, we couldn't load the chat. Please try again later." }
+                    {
+                        sender: "bot",
+                        text: "죄송합니다. 채팅을 불러오는 중 오류가 발생했습니다. 잠시 후 다시 시도해주세요.",
+                    },
                 ]);
             } finally {
-                setIsLoading(false);
+                setIsLoading(false); // 초기 로딩 종료
             }
         };
 
@@ -50,41 +46,30 @@ const ChattingPage = () => {
     const handleSendMessage = async () => {
         if (input.trim() === "") return;
 
-        const newMessages = [...messages, { sender: "user", text: input }];
-        setMessages(newMessages);
-        console.log(1)
-        console.log(input);
+        const userMessage = { sender: "user", text: input.trim() };
+        setMessages((prevMessages) => [...prevMessages, userMessage]);
         setInput("");
 
+        setIsLoading(true); // 전송 중 로딩 시작
         try {
-            setIsSending(true);
-            console.log(3);
-            console.log(input.trim());
             const response = await axios.post(
                 `${process.env.REACT_APP_API_URL}/api/chatting/new`,
-                { message: input.trim() },
+                { message: userMessage.text },
                 {
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
+                    headers: { "Content-Type": "application/json" },
                     withCredentials: true,
                 }
             );
-            const botReply = response.data.reply || "Sorry, I couldn't understand that.";
-            const updatedMessages = [...newMessages, { sender: "bot", text: botReply }];
-            setMessages(updatedMessages);
-
+            const botReply = response.data.reply || "죄송합니다. 이해하지 못했습니다.";
+            setMessages((prevMessages) => [...prevMessages, { sender: "bot", text: botReply }]);
         } catch (error) {
             console.error("Error sending message:", error);
-            const errorMessages = [
-                ...newMessages,
-                { sender: "bot", text: "Sorry, there was an error. Please try again later." }
-            ];
-            setMessages(errorMessages);
-
-
+            setMessages((prevMessages) => [
+                ...prevMessages,
+                { sender: "bot", text: "죄송합니다. 메시지 전송 중 오류가 발생했습니다. 다시 시도해주세요." },
+            ]);
         } finally {
-            setIsSending(false);
+            setIsLoading(false); // 전송 중 로딩 종료
         }
     };
 
@@ -98,22 +83,22 @@ const ChattingPage = () => {
     return (
         <div className="chatting-container">
             <div className="chat-sidebar">
-                <h2>Chat Support</h2>
+                <h2>고객 지원</h2>
                 <ul>
-                    <li>Help Center</li>
-                    <li>FAQs</li>
-                    <li>Contact Us</li>
+                    <li>도움말 센터</li>
+                    <li>FAQ</li>
+                    <li>문의하기</li>
                 </ul>
             </div>
 
             <div className="chat-main">
                 <div className="chat-header">
-                    <h1>{isMobile ? "Mobile Chat" : "대화해요."}</h1>
+                    <h1>{isMobile ? "모바일 채팅" : "대화해요."}</h1>
                 </div>
 
                 {isLoading ? (
                     <div className="chat-loading">
-                        <p>Loading chat...</p>
+                        <p>로딩 중...</p>
                         <div className="spinner"></div>
                     </div>
                 ) : (
@@ -135,11 +120,11 @@ const ChattingPage = () => {
                         value={input}
                         onChange={(e) => setInput(e.target.value)}
                         onKeyDown={handleKeyDown}
-                        placeholder="Type a message..."
-                        disabled={isSending || isLoading}
+                        placeholder="메시지를 입력하세요..."
+                        disabled={isLoading} // 로딩 중에는 입력 필드 비활성화
                     />
-                    <button onClick={handleSendMessage} disabled={isSending || isLoading}>
-                        {isSending ? "Sending..." : "Send"}
+                    <button onClick={handleSendMessage} disabled={isLoading}>
+                        {isLoading ? "로딩 중..." : "전송"}
                     </button>
                 </div>
             </div>
