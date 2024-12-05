@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useMediaQuery } from "react-responsive";
 import axios from "axios";
 import "./ChattingPage.css";
@@ -8,6 +8,8 @@ const ChattingPage = () => {
     const [messages, setMessages] = useState([]);
     const [input, setInput] = useState("");
     const [isLoading, setIsLoading] = useState(false); // 로딩 상태 통합 관리
+    const inputRef = useRef(null); // 입력 필드 참조
+    const messagesEndRef = useRef(null); // 채팅 메시지 컨테이너 끝 참조
 
     useEffect(() => {
         const fetchFirstChatting = async () => {
@@ -43,7 +45,14 @@ const ChattingPage = () => {
         fetchFirstChatting();
     }, []);
 
-    const handleSendMessage = async () => {
+
+    useEffect(() => {
+        // 새로운 메시지가 추가될 때 스크롤을 가장 아래로 이동
+        messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    }, [messages])
+
+    const handleSendMessage = async (e = null) => {
+        if (e) e.preventDefault(); // 이벤트 객체가 있으면 기본 동작 방지
         if (input.trim() === "") return;
 
         const userMessage = { sender: "user", text: input.trim() };
@@ -70,13 +79,18 @@ const ChattingPage = () => {
             ]);
         } finally {
             setIsLoading(false); // 전송 중 로딩 종료
+            if (inputRef.current) {
+                inputRef.current.focus(); // 입력 필드에 포커스 설정
+            } else {
+                console.error("Input ref is not available.");
+            }
         }
     };
 
     const handleKeyDown = (e) => {
         if (e.key === "Enter") {
             e.preventDefault();
-            handleSendMessage();
+            handleSendMessage(e);
         }
     };
 
@@ -111,19 +125,24 @@ const ChattingPage = () => {
                                 {msg.text}
                             </div>
                         ))}
+                        <div ref={messagesEndRef} />
                     </div>
                 )}
 
                 <div className="chat-input">
                     <input
+                        ref={inputRef} // 입력 필드에 포커스 유지
                         type="text"
                         value={input}
                         onChange={(e) => setInput(e.target.value)}
                         onKeyDown={handleKeyDown}
                         placeholder="메시지를 입력하세요..."
-                        disabled={isLoading} // 로딩 중에는 입력 필드 비활성화
+                        //disabled={isLoading} // 로딩 중에는 입력 필드 비활성화
                     />
-                    <button onClick={handleSendMessage} disabled={isLoading}>
+                    <button
+                        onClick={() => handleSendMessage()} // 이벤트 객체 없이 호출
+                        disabled={isLoading || input.trim() === ""}
+                    >
                         {isLoading ? "로딩 중..." : "전송"}
                     </button>
                 </div>
