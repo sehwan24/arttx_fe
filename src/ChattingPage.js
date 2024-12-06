@@ -131,7 +131,6 @@ const ChattingPage = () => {
                         onChange={(e) => setInput(e.target.value)}
                         onKeyDown={handleKeyDown}
                         placeholder="메시지를 입력하세요..."
-                        disabled={isLoading} // 로딩 중에는 입력 필드 비활성화
                     />
                     <button
                         onClick={() => handleSendMessage()} // 이벤트 객체 없이 호출
