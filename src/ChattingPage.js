@@ -69,7 +69,7 @@ const ChattingPage = () => {
                     withCredentials: true,
                 }
             );
-            const botReply = response.data.reply || "죄송합니다. 이해하지 못했습니다.";
+            const botReply = response.data.data.message || "죄송합니다. 이해하지 못했습니다.";
             setMessages((prevMessages) => [...prevMessages, { sender: "bot", text: botReply }]);
         } catch (error) {
             console.error("Error sending message:", error);
