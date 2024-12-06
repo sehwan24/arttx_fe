@@ -45,11 +45,10 @@ const ChattingPage = () => {
         fetchFirstChatting();
     }, []);
 
-
     useEffect(() => {
         // 새로운 메시지가 추가될 때 스크롤을 가장 아래로 이동
         messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-    }, [messages])
+    }, [messages]);
 
     const handleSendMessage = async (e = null) => {
         if (e) e.preventDefault(); // 이벤트 객체가 있으면 기본 동작 방지
@@ -79,11 +78,7 @@ const ChattingPage = () => {
             ]);
         } finally {
             setIsLoading(false); // 전송 중 로딩 종료
-            if (inputRef.current) {
-                inputRef.current.focus(); // 입력 필드에 포커스 설정
-            } else {
-                console.error("Input ref is not available.");
-            }
+            inputRef.current?.focus(); // 입력 필드에 포커스 설정
         }
     };
 
@@ -110,24 +105,23 @@ const ChattingPage = () => {
                     <h1>{isMobile ? "모바일 채팅" : "대화해요."}</h1>
                 </div>
 
-                {isLoading ? (
-                    <div className="chat-loading">
-                        <p>로딩 중...</p>
-                        <div className="spinner"></div>
-                    </div>
-                ) : (
-                    <div className="chat-messages">
-                        {messages.map((msg, index) => (
-                            <div
-                                key={index}
-                                className={`chat-message ${msg.sender === "user" ? "user" : "bot"}`}
-                            >
-                                {msg.text}
-                            </div>
-                        ))}
-                        <div ref={messagesEndRef} />
-                    </div>
-                )}
+                <div className="chat-messages">
+                    {messages.map((msg, index) => (
+                        <div
+                            key={index}
+                            className={`chat-message ${msg.sender === "user" ? "user" : "bot"}`}
+                        >
+                            {msg.text}
+                        </div>
+                    ))}
+                    {isLoading && (
+                        <div className="chat-loading">
+                            <p>로딩 중...</p>
+                            <div className="spinner"></div>
+                        </div>
+                    )}
+                    <div ref={messagesEndRef} />
+                </div>
 
                 <div className="chat-input">
                     <input
@@ -137,7 +131,7 @@ const ChattingPage = () => {
                         onChange={(e) => setInput(e.target.value)}
                         onKeyDown={handleKeyDown}
                         placeholder="메시지를 입력하세요..."
-                        //disabled={isLoading} // 로딩 중에는 입력 필드 비활성화
+                        disabled={isLoading} // 로딩 중에는 입력 필드 비활성화
                     />
                     <button
                         onClick={() => handleSendMessage()} // 이벤트 객체 없이 호출
