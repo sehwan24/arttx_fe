@@ -29,10 +29,10 @@ const HomePage = () => {
                     <li><strong>캐치! 그림핑</strong></li>
                 </ul>
                 <ul>
-                    <li><a href="#">Home</a></li>
-                    <li><a href="#">About</a></li>
-                    <li><a href="#">Services</a></li>
-                    <li><a href="#" role="button">Contact</a></li>
+                    <li><a href="#">홈</a></li>
+                    <li><a href="#">소개</a></li>
+                    <li><a href="#">서비스</a></li>
+                    <li><a href="#" role="button">문의하기</a></li>
                 </ul>
             </nav>
 
@@ -50,15 +50,15 @@ const HomePage = () => {
                 <div className="container">
                     <article>
                         <hgroup>
-                            <h2>Stay Updated!</h2>
-                            <h3>Subscribe to our newsletter for the latest updates.</h3>
+                            <h2>최신 소식을 받아보세요!</h2>
+                            <h3>뉴스레터를 구독하고 최신 정보를 받아보세요.</h3>
                         </hgroup>
                         <form className="grid">
                             <input
                                 type="text"
                                 id="firstname"
                                 name="firstname"
-                                placeholder="First Name"
+                                placeholder="이름"
                                 aria-label="First Name"
                                 required
                             />
@@ -66,12 +66,12 @@ const HomePage = () => {
                                 type="email"
                                 id="email"
                                 name="email"
-                                placeholder="Email Address"
+                                placeholder="이메일"
                                 aria-label="Email Address"
                                 required
                             />
                             <button type="submit" onClick={(e) => e.preventDefault()}>
-                                Subscribe
+                                구독하기
                             </button>
                         </form>
                     </article>
@@ -79,7 +79,7 @@ const HomePage = () => {
             </section>
 
             <footer className="container">
-                <small><a href="#">Privacy Policy</a> • <a href="#">Terms of Service</a></small>
+                <small><a href="#">개인정보 처리방침</a> • <a href="#">이용 약관</a></small>
             </footer>
         </div>
     );
