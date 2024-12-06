@@ -5,8 +5,8 @@ import HomePage from './HomePage';  // 예시로 사용할 새로운 첫 페이�
 import HousePage from "./HousePage";
 import PersonPage from "./PersonPage";
 import TreePage from "./TreePage";
-import ResultPage from "./ResultPage";
 import ChattingPage from "./ChattingPage";
+import ResultPage2 from "./ResultPage2";
 
 function App() {
     return (
@@ -20,7 +20,7 @@ function App() {
                 <Route path="/house" element={<HousePage />} />
                 <Route path="/person" element={<PersonPage />} />
                 <Route path="/tree" element={<TreePage />} />
-                <Route path="/result" element={<ResultPage />} />
+                <Route path="/result" element={<ResultPage2 />} />
                 <Route path="/chatting" element={<ChattingPage />} />
             </Routes>
         </Router>

@@ -1,0 +1,106 @@
+
+/* 메인 콘텐츠 스타일 */
+main.container2 {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* 가로 중앙 정렬 */
+    justify-content: center; /* 세로 중앙 정렬 */
+    padding: 8rem 1rem 3rem; /* 네비게이션 아래 적절한 공간 확보 */
+    gap: 3rem; /* 요소 간 간격 */
+    margin-top: -80px;
+}
+
+/* 제목 스타일 */
+main.container2 h2 {
+    font-size: 2rem;
+    color: #007bff;
+    text-align: center;
+    margin: 0;
+}
+
+main.container2 p {
+    font-size: 1.2rem;
+    color: #555;
+    text-align: center;
+    margin: 0;
+}
+
+/* 9각형 도형 스타일 */
+.nonagon-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-width: 600px; /* 캔버스 크기 조정 */
+    margin: 0 auto;
+    text-align: center;
+    gap: 1rem; /* 캔버스와 제목 사이 간격 */
+}
+
+.nonagon-container h3 {
+    font-size: 1.5rem;
+    color: #333;
+    margin: 0;
+}
+
+.nonagon-canvas {
+    display: block;
+    margin: 0 auto;
+    width: 100%;
+    max-width: 550px; /* 캔버스의 최대 너비 */
+    height: auto;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+
+/* Report Section 스타일 */
+.report-section {
+    max-width: 800px;
+    margin: 0 auto;
+    text-align: left;
+    padding: 1.5rem;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.report-section h3 {
+    font-size: 1.8rem;
+    margin-bottom: 1rem;
+    color: #007BFF;
+}
+
+.report-section ul {
+    list-style: none;
+    padding: 0;
+    margin: 1rem;
+}
+
+.report-section ul li {
+    margin-bottom: 1rem;
+    font-size: 1rem;
+    color: #555;
+}
+
+.report-section ul li strong {
+    color: #333;
+}
+
+/* 돌아가기 버튼 스타일 */
+.back-button {
+    display: inline-block;
+    padding: 1rem 2.5rem;
+    font-size: 1.25rem;
+    color: #fff;
+    background-color: #007bff;
+    border-radius: 8px;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+}
+
+.back-button:hover {
+    background-color: #0056b3;
+}
