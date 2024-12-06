@@ -129,6 +129,7 @@
     background-color: #fff;
     border: 1px solid #ddd;
     border-radius: 8px;
+    gap: 10px;
 }
 
 .chat-input input {

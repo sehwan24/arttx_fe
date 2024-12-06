@@ -89,6 +89,10 @@ const ChattingPage = () => {
         }
     };
 
+    const goNextPage = () => {
+        window.location.href = "/result";
+    };
+
     return (
         <div className="chatting-container">
             <div className="chat-sidebar">
@@ -137,6 +141,9 @@ const ChattingPage = () => {
                         disabled={isLoading || input.trim() === ""}
                     >
                         {isLoading ? "로딩 중..." : "전송"}
+                    </button>
+                    <button onClick={(e) => goNextPage()}>
+                        결과보기
                     </button>
                 </div>
             </div>
