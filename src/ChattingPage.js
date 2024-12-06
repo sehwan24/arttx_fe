@@ -10,6 +10,25 @@ const ChattingPage = () => {
     const [isLoading, setIsLoading] = useState(false); // 로딩 상태 통합 관리
     const inputRef = useRef(null); // 입력 필드 참조
     const messagesEndRef = useRef(null); // 채팅 메시지 컨테이너 끝 참조
+    const [firstImage, setFirstImage] = useState(null);
+    const [secondImage, setSecondImage] = useState(null);
+    const [thirdImage, setThirdImage] = useState(null);
+
+    useEffect(() => {
+        // 첫 번째 이미지를 로컬 스토리지에서 가져오기
+        const savedImage1 = localStorage.getItem("savedDrawing1");
+        if (savedImage1) {
+            setFirstImage(savedImage1);
+        }
+        const savedImage2 = localStorage.getItem("savedDrawing2");
+        if (savedImage2) {
+            setSecondImage(savedImage2);
+        }
+        const savedImage3 = localStorage.getItem("savedDrawing3");
+        if (savedImage3) {
+            setThirdImage(savedImage3);
+        }
+    }, []);
 
     useEffect(() => {
         const fetchFirstChatting = async () => {
@@ -96,12 +115,28 @@ const ChattingPage = () => {
     return (
         <div className="chatting-container">
             <div className="chat-sidebar">
-                <h2>고객 지원</h2>
-                <ul>
-                    <li>도움말 센터</li>
-                    <li>FAQ</li>
-                    <li>문의하기</li>
-                </ul>
+                {/* 로컬 스토리지 이미지 및 기본 이미지 렌더링 */}
+                {firstImage ? (
+                    <div className="sidebar-image-container">
+                        <img src={firstImage} alt="First saved drawing" className="sidebar-image" />
+                    </div>
+                ) : (
+                    <p>Loading...</p>
+                )}
+                {secondImage ? (
+                    <div className="sidebar-image-container">
+                        <img src={secondImage} alt="Second saved drawing" className="sidebar-image" />
+                    </div>
+                ) : (
+                    <p>Loading...</p>
+                )}
+                {thirdImage ? (
+                    <div className="sidebar-image-container">
+                        <img src={thirdImage} alt="Third saved drawing" className="sidebar-image" />
+                    </div>
+                ) : (
+                    <p>Loading...</p>
+                )}
             </div>
 
             <div className="chat-main">

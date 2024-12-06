@@ -18,6 +18,7 @@
     left: 0px;
     transition: left 0.3s ease;
     z-index: 1000;
+    padding: 15px;
 }
 
 .chat-sidebar.open {
@@ -65,7 +66,7 @@
 /* 메인 채팅 영역 */
 .chat-main {
     flex: 1;
-    margin-left: 250px;
+    margin-left: 280px;
     display: flex;
     flex-direction: column;
     background-color: #f9f9f9;
@@ -121,6 +122,24 @@
     background-color: #e4e4e4;
     color: black;
 }
+
+/* 사이드바 이미지 스타일 */
+.sidebar-image-container {
+    background-color: white; /* 이미지 배경을 흰색으로 설정 */
+    border-radius: 8px; /* 모서리를 둥글게 */
+    padding: 5px; /* 이미지와 배경 사이에 여백 추가 */
+    margin-bottom: 10px; /* 컨테이너 간격 추가 */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* 약간의 그림자 추가 */
+}
+
+.sidebar-image {
+    width: 100%; /* 사이드바의 너비에 맞게 조정 */
+    height: auto; /* 비율을 유지하면서 높이 자동 조정 */
+    border-radius: 8px; /* 이미지 자체도 둥글게 */
+    object-fit: cover; /* 이미지가 영역에 맞게 표시 */
+}
+
+
 
 /* 채팅 입력 영역 */
 .chat-input {

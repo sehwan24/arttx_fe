@@ -146,6 +146,22 @@ const PersonPage = () => {
         }
     };
 
+    const saveCanvasToLocalStorage = () => {
+        const canvas = canvasRef.current;
+        if (!canvas) return;
+
+        // 캔버스를 Base64 데이터 URL로 변환
+        const imageData = canvas.toDataURL('image/png'); // PNG 형식으로 저장
+
+        // 로컬 스토리지에 저장
+        try {
+            localStorage.setItem('savedDrawing3', imageData);
+            console.log('Canvas image saved to localStorage.');
+        } catch (error) {
+            console.error('Failed to save image to localStorage:', error);
+        }
+    };
+
     // 캔버스를 이미지 파일로 저장하는 함수
     const saveCanvas = () => {
         const canvas = canvasRef.current;
@@ -188,6 +204,7 @@ const PersonPage = () => {
                     // 응답 데이터를 로컬 스토리지에 저장
                     localStorage.setItem('personResponse', JSON.stringify(response.data));
                     localStorage.setItem('firstChatting', response.data.firstChatting);
+                    saveCanvasToLocalStorage();
                     // 페이지 이동
                     window.location.href = "/chatting";
                 })

@@ -143,6 +143,23 @@ const HousePage = () => {
         }
     };
 
+
+    const saveCanvasToLocalStorage = () => {
+        const canvas = canvasRef.current;
+        if (!canvas) return;
+
+        // 캔버스를 Base64 데이터 URL로 변환
+        const imageData = canvas.toDataURL('image/png'); // PNG 형식으로 저장
+
+        // 로컬 스토리지에 저장
+        try {
+            localStorage.setItem('savedDrawing1', imageData);
+            console.log('Canvas image saved to localStorage.');
+        } catch (error) {
+            console.error('Failed to save image to localStorage:', error);
+        }
+    };
+
     // 캔버스를 이미지 파일로 저장하는 함수
     const saveCanvas = () => {
         const canvas = canvasRef.current;
@@ -189,6 +206,7 @@ const HousePage = () => {
                     console.error('Error uploading image:', error);
                 });
         }, 'image/jpeg'); // 이미지 형식 설정
+        saveCanvasToLocalStorage();
         // 요청 성공 후 페이지 이동
         window.location.href = "/tree";
     };

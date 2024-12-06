@@ -145,6 +145,22 @@ const TreePage = () => {
         }
     };
 
+    const saveCanvasToLocalStorage = () => {
+        const canvas = canvasRef.current;
+        if (!canvas) return;
+
+        // 캔버스를 Base64 데이터 URL로 변환
+        const imageData = canvas.toDataURL('image/png'); // PNG 형식으로 저장
+
+        // 로컬 스토리지에 저장
+        try {
+            localStorage.setItem('savedDrawing2', imageData);
+            console.log('Canvas image saved to localStorage.');
+        } catch (error) {
+            console.error('Failed to save image to localStorage:', error);
+        }
+    };
+
     // 캔버스를 이미지 파일로 저장하는 함수
     const saveCanvas = () => {
         const canvas = canvasRef.current;
@@ -193,6 +209,8 @@ const TreePage = () => {
                     alert('이미지 업로드 중 오류가 발생했습니다. 다시 시도해주세요.');
                 });
         }, 'image/jpeg'); // 이미지 형식 설정
+
+        saveCanvasToLocalStorage();
         // 업로드 성공 후 페이지 이동
         window.location.href = "/person";
     };
