@@ -70,7 +70,11 @@ const ChattingPage = () => {
                 }
             );
             const botReply = response.data.data.message || "죄송합니다. 이해하지 못했습니다.";
-            setMessages((prevMessages) => [...prevMessages, { sender: "bot", text: botReply }]);
+            const formattedMessages = Array.isArray(botReply)
+                ? botReply
+                : [{ sender: "bot", text: botReply }];
+            setMessages(formattedMessages);
+            //setMessages((prevMessages) => [...prevMessages, { sender: "bot", text: botReply }]);
         } catch (error) {
             console.error("Error sending message:", error);
             setMessages((prevMessages) => [
