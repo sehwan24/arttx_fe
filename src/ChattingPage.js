@@ -108,7 +108,29 @@ const ChattingPage = () => {
         }
     };
 
-    const goNextPage = () => {
+    const goNextPage = async () => {
+        setIsLoading(true); // 전송 중 로딩 시작
+        try {
+            const response = await axios.post(
+                `${process.env.REACT_APP_API_URL}/api/chatting/new`,
+                { message: "exit" },
+                {
+                    headers: { "Content-Type": "application/json" },
+                    withCredentials: true,
+                }
+            );
+            const botReply = response.data.data.message || "죄송합니다. 이해하지 못했습니다.";
+            setMessages((prevMessages) => [...prevMessages, { sender: "bot", text: botReply }]);
+        } catch (error) {
+            console.error("Error sending message:", error);
+            setMessages((prevMessages) => [
+                ...prevMessages,
+                { sender: "bot", text: "죄송합니다. 메시지 전송 중 오류가 발생했습니다. 다시 시도해주세요." },
+            ]);
+        } finally {
+            setIsLoading(false); // 전송 중 로딩 종료
+            inputRef.current?.focus(); // 입력 필드에 포커스 설정
+        }
         window.location.href = "/result";
     };
 
