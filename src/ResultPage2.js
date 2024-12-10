@@ -1,7 +1,7 @@
-import React, { useEffect, useRef } from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import './ResultPage2.css';
 
-const scores = {
+/*const scores = {
     '공격성': 7,
     '사회불안': 5,
     '우울': 8,
@@ -11,7 +11,7 @@ const scores = {
     '애정결핍': 7,
     '열등감': 5,
     '퇴행': 8,
-};
+};*/
 
 const maxScores = {
     '공격성': 12,
@@ -71,6 +71,10 @@ const drawDynamicNonagon = (canvas, scores, maxScores) => {
     ctx.beginPath();
     scoreValues.forEach((score, i) => {
         const percentage = score / maxScoreValues[i]; // Calculate percentage
+        console.log(scoreValues);
+        console.log(score);
+        console.log(maxScoreValues[i]);
+        console.log(percentage);
         const angle = i * angleStep;
         const radius = percentage * maxRadius; // Scale radius by percentage
         const x = centerX + radius * Math.cos(angle);
@@ -111,10 +115,29 @@ const drawDynamicNonagon = (canvas, scores, maxScores) => {
 
 const ResultPage = () => {
     const canvasRef = useRef(null);
+    const [scores, setScores] = useState(null);
 
     useEffect(() => {
-        drawDynamicNonagon(canvasRef.current, scores, maxScores);
+        // Fetch scores from localStorage
+        const personResponse = localStorage.getItem('personResponse');
+        if (personResponse) {
+            const parsedData = JSON.parse(personResponse);
+            if (parsedData?.data?.scores) {
+                setScores(parsedData.data.scores);
+            }
+        }
     }, []);
+
+    useEffect(() => {
+        if (scores) {
+            drawDynamicNonagon(canvasRef.current, scores, maxScores);
+            console.log(scores);
+        }
+    }, [scores]);
+
+    if (!scores) {
+        return <div>Loading...</div>;
+    }
 
     return (
         <div>
