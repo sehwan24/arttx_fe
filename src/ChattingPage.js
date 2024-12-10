@@ -112,7 +112,7 @@ const ChattingPage = () => {
         setIsLoading(true); // 전송 중 로딩 시작
         try {
             const response = await axios.post(
-                `${process.env.REACT_APP_API_URL}/api/chatting/new`,
+                `${process.env.REACT_APP_API_URL}/api/chatting/exit`,
                 { message: "exit" },
                 {
                     headers: { "Content-Type": "application/json" },
